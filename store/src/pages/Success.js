@@ -25,8 +25,7 @@ function Success(){
             })
             if (response.ok) {
                 const data = await response.json()
-                console.log("inside the function with customer details")
-                console.log(data)
+                
                 setCheckoutDetails(data)
             }
         } catch (error) {

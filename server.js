@@ -103,13 +103,18 @@ app.post("/checkout", async (req,res) => {
         )
     })
 
+    //today's date
+    const today = new Date()
+    const formattedDate = today.toISOString().split('T')[0]
+
     const session = await stripe.checkout.sessions.create({
         line_items: lineItems,
         mode: 'payment',
         success_url: "http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}",
         cancel_url: "http://localhost:3000/cancel",
         metadata: {
-          orderId: `ORDER-${uuid.v4()}`
+          orderId: `ORDER-${uuid.v4()}`,
+          orderDate: formattedDate
         }
     })
 
@@ -277,42 +282,25 @@ app.get('/api/submit', (req, res) => {
   // Fetch and Update Orders and Create new Customers
   app.get("/order-details", async (req,res) => {
     try {
-      const checkoutSessions = await Orders.find()
+      // const checkoutSessions = await Orders.find()
 
       
-      
-      for (const session of checkoutSessions){
-        const checkoutSessionObject = await stripe.checkout.sessions.retrieve(session.checkoutSessionId, {expand: ["line_items"]})
-        const amount_total = (checkoutSessionObject.amount_total)/100
-        //console.log("checkoutSessionId: ", session.checkoutSessionId)
-        //console.log("Payment Status: ", checkoutSessionObject.payment_status)
-        //console.log("Amount total:", amount_total)
-        
+      // for (const session of checkoutSessions){
+      //   const checkoutSessionObject = await stripe.checkout.sessions.retrieve(session.checkoutSessionId, {expand: ["line_items"]})
+      //   const amount_total = (checkoutSessionObject.amount_total)/100
         
 
-        await Orders.findOneAndUpdate({checkoutSessionId: session.checkoutSessionId},
-          {
-            paymentStatus: checkoutSessionObject.payment_status,
-            amountTotal: amount_total
-          })
+      //   await Orders.findOneAndUpdate({checkoutSessionId: session.checkoutSessionId},
+      //     {
+      //       paymentStatus: checkoutSessionObject.payment_status,
+      //       amountTotal: amount_total
+      //     })
 
-        const customerDetails = checkoutSessionObject.customer_details
-        const existingCustomer = await Customers.findOne({email: customerDetails.email})
-        if (existingCustomer){
-          console.log("Customer already exists")
-        } else {
-          const newCustomer = new Customers({
-            fullName: customerDetails.name,
-            email: customerDetails.email,
-            country: customerDetails.address.country,
-            postalCode: customerDetails.address.postal_code
-          })
-          await newCustomer.save()
-        }
         
-      } 
+        
+      // } 
       const updatedCheckoutSessions = await Orders.find()
-      console.log("updated : ",updatedCheckoutSessions)
+      console.log("Updated checkout sessions:", updatedCheckoutSessions)
       res.json(updatedCheckoutSessions)
     } catch (error){
         res.status(500).json({ error: "Failed to fetch checkout details"})
@@ -323,21 +311,7 @@ app.get('/api/submit', (req, res) => {
   app.get("/customers-details", async (req,res) => {
     try {
       const customersDetails = await Customers.find()
-      /* const customersDetails = [] */
-
-      /* for (const customer of customers){
-        const customersDetailsObject = await stripe.checkout.sessions.retrieve(session.checkoutSessionId)
-        const amount_total = (checkoutSessionObject.amount_total)/100
-        console.log("checkoutSessionId: ", session.checkoutSessionId)
-        console.log("Payment Status: ", checkoutSessionObject.payment_status)
-        console.log("Amount total:", amount_total)
-        const detail = {
-          checkoutSessionId: session.checkoutSessionId,
-          paymentStatus: checkoutSessionObject.payment_status,
-          amountTotal: amount_total
-        }
-        checkoutDetails.push(detail)
-      }  */
+      
       res.json(customersDetails)
     } catch (error){
         res.status(500).json({ error: "Failed to fetch checkout details"})
@@ -349,17 +323,65 @@ app.get('/api/submit', (req, res) => {
     try{
 
       const checkoutSessionId = req.header("checkout-session-id")
-      const session = await stripe.checkout.sessions.retrieve(checkoutSessionId);
-      const amount_total = ((session.amount_total)/100).toFixed(2)
-      // await Orders.findOneAndUpdate({checkoutSessionId: checkoutSessionId},
-      //   {
-      //     orderId: session.metadata.orderId,
-      //     paymentStatus: session.payment_status,
-      //     amountTotal: amount_total
-      //   })
       
-      console.log("checkout session object of success page : ",session)
-  
+      const session = await stripe.checkout.sessions.retrieve(checkoutSessionId, {expand:['line_items','payment_intent'],});
+      const amount_total = ((session.amount_total)/100).toFixed(2)
+      console.log(session)
+
+      const customerDetails = [{
+        fullName: session.customer_details.name,
+        email: session.customer_details.email,
+        country: session.customer_details.address.country,
+        postalCode: session.customer_details.address.postal_code
+      }]
+
+      //create an array and to loop through line items to add to the array to push into Orders document later
+      const itemsPurchased = []
+      for (const item of session.line_items.data){
+        itemsPurchased.push({
+              itemName: item.description,
+              quantity: item.quantity,
+              price: ((item.amount_total)/100).toFixed(2),
+              currency: item.currency
+        })
+      }
+      
+
+      //no need to loop through payment intent because it has only 1 object
+      
+      const transactions = [{
+        paymentIntentId: session.payment_intent.id,
+        amount: ((session.payment_intent.amount_received)/100).toFixed(2),
+        payment_status: session.payment_intent.status
+      }]
+      
+      
+      await Orders.findOneAndUpdate({checkoutSessionId: checkoutSessionId},
+        {
+          $set: {
+            orderId: session.metadata.orderId,
+            orderDate: session.metadata.orderDate,
+            paymentStatus: session.payment_status,
+            amountTotal: amount_total,
+            transactions: transactions,
+            itemsPurchased: itemsPurchased,
+            customerDetails: customerDetails
+          }
+        })
+      
+        const existingCustomer = await Customers.findOne({email: session.customer_details.email})
+        if (existingCustomer){
+          console.log("Customer already exists")
+        } else {
+          const newCustomer = new Customers({
+            fullName: session.customer_details.name,
+            email: session.customer_details.email,
+            country: session.customer_details.address.country,
+            postalCode: session.customer_details.address.postal_code
+          })
+          await newCustomer.save()
+        }
+      
       res.json(session)
     } catch(error){
       res.status(500).json({error:"Failed to fetch checkout details"})

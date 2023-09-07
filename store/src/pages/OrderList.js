@@ -30,7 +30,7 @@ function OrderList(){
         <Table striped bordered>
             <thead>
                 <tr>
-                    <th>Checkout Session ID</th>
+                    <th>Order ID</th>
                     <th>Payment Status</th>
                     <th>Amount Paid</th>
                 </tr>
@@ -38,7 +38,7 @@ function OrderList(){
             <tbody>
                 {orderDetails.map((detail) => (
                   <tr key={detail.checkoutSessionId}>
-                    <td>{detail.checkoutSessionId}</td>
+                    <td>{detail.orderId}</td>
                     <td>{detail.paymentStatus}</td>
                     <td>{detail.amountTotal}$</td>
                   </tr>

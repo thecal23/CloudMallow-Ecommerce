@@ -13,13 +13,21 @@ const ordersSchema = new Schema({
     checkoutSessionId: {type: String, required: true, unique: true},
     orderId: String,
     orderDate: String,
+    customerDetails:[{
+        fullName: String,
+        email: String,
+        country: String,
+        postalCode: String
+
+    }],
     itemsPurchased:[{
         itemName: String,
         quantity: Number,
-        price: Number
+        price: Number,
+        currency: String
     }],
     transactions:[{
-        transactionId: String,
+        paymenIntentId: String,
         transactionDate: String,
         amount: Number,
         payment_status: String,
