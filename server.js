@@ -299,9 +299,8 @@ app.get('/api/submit', (req, res) => {
         
         
       // } 
-      const updatedCheckoutSessions = await Orders.find()
-      console.log("Updated checkout sessions:", updatedCheckoutSessions)
-      res.json(updatedCheckoutSessions)
+      const orderDetails = await Orders.find()
+      res.json(orderDetails)
     } catch (error){
         res.status(500).json({ error: "Failed to fetch checkout details"})
       }
