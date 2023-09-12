@@ -31,7 +31,7 @@ function OrderList(){
         <Table striped bordered>
             <thead>
                 <tr>
-                    <th text-center>Order ID</th>
+                    <th>Order ID</th>
                     <th>Order Date</th>
                     <th>Customer Details</th>
                     <th>Items Purchased</th>

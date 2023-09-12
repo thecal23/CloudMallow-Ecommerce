@@ -108,10 +108,11 @@ app.post("/checkout", async (req,res) => {
     const formattedDate = today.toISOString().split('T')[0]
 
     const session = await stripe.checkout.sessions.create({
+        customer_creation: 'always',
         line_items: lineItems,
         mode: 'payment',
         success_url: "http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}",
-        cancel_url: "http://localhost:3000/cancel",
+        cancel_url: "http://localhost:3000/cancel?session_id={CHECKOUT_SESSION_ID}",
         metadata: {
           orderId: `ORDER-${uuid.v4()}`,
           orderDate: formattedDate
@@ -384,6 +385,25 @@ app.get('/api/submit', (req, res) => {
       res.json(session)
     } catch(error){
       res.status(500).json({error:"Failed to fetch checkout details"})
+    }
+  })
+
+  //Cancel page
+  app.get("/cancel-page", async (req,res) => {
+    try {
+      const checkoutSessionId = req.header("checkout-session-id")
+      
+      const deletedOrder = await Orders.findOneAndDelete({checkoutSessionId: checkoutSessionId})
+      
+      if (deletedOrder){
+        console.log("Deleted")
+        res.send("Successfully deleted order")
+      } else {
+        console.log("Not deleted")
+        res.send("Failed to delete order")
+      }
+    } catch (error) {
+      res.status(500).json({error:"Failed to delete checkout details"})
     }
   })
 
