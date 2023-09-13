@@ -23,6 +23,7 @@ module.exports = function (passport) {
   );
 
   passport.serializeUser((user, cb) => {
+    console.log("this user.id is the same as _id in mongodb : ",user.id)
     cb(null, user.id);
   });
 

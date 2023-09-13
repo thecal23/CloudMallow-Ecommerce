@@ -19,6 +19,7 @@ function OrderList(){
                 setOrderDetails(data)
             } else {
                 console.log("trouble")
+                window.location.href = 'http://localhost:3000/admin/login'
             }
         } catch (error) {
             console.error("Error fetching checkout details", error)

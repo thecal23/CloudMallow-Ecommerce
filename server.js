@@ -10,11 +10,11 @@ const bodyParser = require('body-parser')
 require('dotenv/config')
 var cors = require('cors')
 const stripe = require('stripe')('sk_test_51NIOh0C0WYouLypiG4kBFMczCjgNGr1c9tiJZkfOXlYFhx4hPNHYk5qHvmfVsoJF1rhENOHJbsX7KPX6ldnz0pYs00k6d2WSa0')
+const session = require("express-session")
 const passport = require('passport')
 const passportLocal = require("passport-local").Strategy
 const cookieParser = require("cookie-parser")
 const bcrypt = require("bcryptjs")
-const session = require("express-session")
 const uuid = require('uuid')
 
 
@@ -41,19 +41,53 @@ require('./passportConfig')(passport)
 
 
 //routes
-app.post("/admin/login", (req,res,next)=> {
-  passport.authenticate("local", (err, user,info) => {
-    if(err) throw err
-    if(!user) res.send("No user exists")
-    else {
-      req.logIn(user, err => {
-        if (err) throw err
-        res.send("Successfully Authenticated")
-        console.log(req.user)
-      })
-    }
-  })(req,res,next)
-})
+
+function ensureAuthenticated(req, res, next){
+  if (req.isAuthenticated()) {
+    next();
+  }
+  res.status(401).json({message: "Unauthorized"})
+}
+
+//login
+// app.post("/admin/login", (req,res,next)=> {
+//   passport.authenticate("local", (err, user,info) => {
+//     if(err) throw err
+//     if(!user) res.send("No user exists")
+//     else {
+//       req.logIn(user, err => {
+//         if (err) throw err
+//         res.json({message:"Successfully Authenticated"})
+//         console.log(req.user)
+//       })
+//     }
+//   })(req,res,next)
+// })
+
+app.post("/admin/login", async (req, res) => {
+  try {
+    passport.authenticate("local", (err, user, info) => {
+      if (err) {
+        throw err;
+      }
+      if (!user) {
+        res.status(401).json({ message: "No user exists" });
+      } else {
+        req.logIn(user, async (err) => {
+          if (err) {
+            throw err;
+          }
+          res.json({ message: "Successfully Authenticated" });
+          console.log(req.user);
+        });
+      }
+    })(req, res);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "An error occurred during authentication" });
+  }
+});
+
 
 //register
 app.post("/admin/register", async (req, res) => {
@@ -68,7 +102,7 @@ app.post("/admin/register", async (req, res) => {
         password: hashedPassword,
       });
       await newAdmin.save();
-      res.send("User Created");
+      res.json({message: "User Created"});
     }
   } catch (error) {
     console.error(error);
@@ -76,10 +110,10 @@ app.post("/admin/register", async (req, res) => {
   }
 });
 
-
+//Get username
 app.get("/admin/user", (req,res)=>{
-  console.log(req)
-  res.send(req.user) // the req.user stores the entire user that has been authenticated
+    console.log(req.body)
+    res.json(req.user) // the req.user stores the entire user that has been authenticated
 })
 
 //Checkout creation
@@ -281,25 +315,8 @@ app.get('/api/submit', (req, res) => {
   })
 
   // Fetch and Update Orders and Create new Customers
-  app.get("/order-details", async (req,res) => {
+  app.get("/order-details", ensureAuthenticated, async (req,res) => {
     try {
-      // const checkoutSessions = await Orders.find()
-
-      
-      // for (const session of checkoutSessions){
-      //   const checkoutSessionObject = await stripe.checkout.sessions.retrieve(session.checkoutSessionId, {expand: ["line_items"]})
-      //   const amount_total = (checkoutSessionObject.amount_total)/100
-        
-
-      //   await Orders.findOneAndUpdate({checkoutSessionId: session.checkoutSessionId},
-      //     {
-      //       paymentStatus: checkoutSessionObject.payment_status,
-      //       amountTotal: amount_total
-      //     })
-
-        
-        
-      // } 
       const orderDetails = await Orders.find()
       res.json(orderDetails)
     } catch (error){
