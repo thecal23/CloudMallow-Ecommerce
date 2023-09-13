@@ -50,20 +50,24 @@ function AdminLogin(){
             username: loginUsername,
             password: loginPassword,
           }),
+          credentials: "include", // Include credentials (cookies)
         });
     
-        if (!response.ok) {
-          throw new Error("Login failed");
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Login successful", data);
+          // Handle success or redirect to another page
+        } else {
+          const errorData = await response.json(); // Parse error response data
+          console.log("Login failed", errorData);
+          // Handle error or show an error message
         }
-    
-        const data = await response.json();
-        console.log("Login successful", data);
-        // Handle success or redirect to another page
       } catch (error) {
-        console.log("Login failed", error);
-        // Handle error or show an error message
+        console.error("Error:", error);
+        // Handle network or other errors here
       }
     };
+    
 
     
     const getUser = async () => {
@@ -72,7 +76,7 @@ function AdminLogin(){
           method: "GET",
           credentials: "include", // Use "include" to send credentials (cookies) with the request
         });
-        console.log(response)
+
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -80,7 +84,7 @@ function AdminLogin(){
         const data = await response.json();
         setData(data);
         console.log("got a response")
-        console.log(data);
+        
       } catch (error) {
         console.error("Error fetching user data:", error);
       }

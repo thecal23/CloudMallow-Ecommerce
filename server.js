@@ -35,13 +35,20 @@ app.use(session({
   secret: "secretcode",
   resave: false,
   saveUninitialized: false,
-  store: MongoStore.create({ mongoUrl: process.env.DB_URI})
+  store: MongoStore.create({ mongoUrl: process.env.DB_URL}),
+  cookie: {
+    maxAge: 60*60*100*60 //1 hour
+  }
 }))
 app.use(cookieParser("secretcode"))
 app.use(passport.initialize())
 app.use(passport.session())
 require('./passportConfig')(passport)
 
+const dbOptions = {useNewUrlParser:true, useUnifiedTopology:true}
+mongoose.connect(process.env.DB_URL, dbOptions)
+.then(()=> console.log('DB connected'))
+.catch(err => console.log(err))
 
 //routes
 
@@ -82,6 +89,7 @@ app.post("/admin/login", async (req, res) => {
           }
           res.json({ message: "Successfully Authenticated" });
           console.log(req.user);
+          console.log(req.session)
         });
       }
     })(req, res);
@@ -115,7 +123,6 @@ app.post("/admin/register", async (req, res) => {
 
 //Get username
 app.get("/admin/user", ensureAuthenticated, (req,res)=>{
-    console.log(req.user)
     res.json(req.user) // the req.user stores the entire user that has been authenticated
 })
 
@@ -174,10 +181,7 @@ app.post("/checkout", async (req,res) => {
     }))
 })
 
-const dbOptions = {useNewUrlParser:true, useUnifiedTopology:true}
-mongoose.connect(process.env.DB_URI, dbOptions)
-.then(()=> console.log('DB connected'))
-.catch(err => console.log(err))
+
 
 
 const storage = multer.diskStorage({
