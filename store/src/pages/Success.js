@@ -43,6 +43,7 @@ function Success(){
                 <div>
                     <h2>Checkout Details :</h2>
                     <h4>Email : {checkoutDetails.customer_details.email}</h4>
+                    <h4>Shipping Address : {checkoutDetails.customer_details.address.line1}, {checkoutDetails.customer_details.address.city}, {checkoutDetails.customer_details.address.state}, {checkoutDetails.customer_details.address.postal_code}</h4>
                     <h4>Payment Status : {checkoutDetails.payment_status}</h4>
                     <h4>Status : {checkoutDetails.status}</h4>
                     <h4>Order ID : {checkoutDetails.metadata.orderId}</h4>

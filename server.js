@@ -16,6 +16,7 @@ const passportLocal = require("passport-local").Strategy
 const cookieParser = require("cookie-parser")
 const bcrypt = require("bcryptjs")
 const uuid = require('uuid')
+const MongoStore = require('connect-mongo')
 
 
 const app = express()
@@ -29,10 +30,12 @@ app.use(cors({
   origin: "http://localhost:3000", //<-- location of the react app we're connecting to
   credentials: true
 }))
+// Sessions
 app.use(session({
   secret: "secretcode",
-  resave: true,
-  saveUninitialized: true
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({ mongoUrl: process.env.DB_URI})
 }))
 app.use(cookieParser("secretcode"))
 app.use(passport.initialize())
@@ -111,8 +114,8 @@ app.post("/admin/register", async (req, res) => {
 });
 
 //Get username
-app.get("/admin/user", (req,res)=>{
-    console.log(req.body)
+app.get("/admin/user", ensureAuthenticated, (req,res)=>{
+    console.log(req.user)
     res.json(req.user) // the req.user stores the entire user that has been authenticated
 })
 
@@ -142,6 +145,7 @@ app.post("/checkout", async (req,res) => {
     const formattedDate = today.toISOString().split('T')[0]
 
     const session = await stripe.checkout.sessions.create({
+        shipping_address_collection: { allowed_countries: ['CA']},
         customer_creation: 'always',
         line_items: lineItems,
         mode: 'payment',
@@ -348,8 +352,11 @@ app.get('/api/submit', (req, res) => {
       const customerDetails = [{
         fullName: session.customer_details.name,
         email: session.customer_details.email,
+        address: session.customer_details.address.line1,
+        city: session.customer_details.address.city,
         country: session.customer_details.address.country,
-        postalCode: session.customer_details.address.postal_code
+        postalCode: session.customer_details.address.postal_code,
+        state: session.customer_details.address.state,
       }]
 
       //create an array and to loop through line items to add to the array to push into Orders document later

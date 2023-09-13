@@ -16,9 +16,11 @@ const ordersSchema = new Schema({
     customerDetails:[{
         fullName: String,
         email: String,
+        address: String,
+        city: String,
         country: String,
-        postalCode: String
-
+        postalCode: String,
+        state: String,
     }],
     itemsPurchased:[{
         itemName: String,
