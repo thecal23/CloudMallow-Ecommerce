@@ -24,8 +24,8 @@ const app = express()
 //middleware
 app.use(express.static("uploads"))
 app.use(express.json())
-app.use(bodyParser.urlencoded({extended: true}))
-app.use(bodyParser.json())
+// app.use(bodyParser.urlencoded({extended: true}))
+// app.use(bodyParser.json())
 app.use(cors({
   origin: "http://localhost:3000", //<-- location of the react app we're connecting to
   credentials: true
@@ -38,7 +38,7 @@ app.use(function(req, res, next) {
     "Origin, X-Requested-With, Content-Type, Accept"
   );
   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-  console.log("we in here")
+  console.log("requested headers: ", req.headers)
   next();
 });
 // Sessions
@@ -48,7 +48,7 @@ app.use(session({
   saveUninitialized: false,
   store: MongoStore.create({ mongoUrl: process.env.DB_URL}),
   cookie: {
-    maxAge: 60*60*100*60 //1 hour
+    maxAge: 60*60*100*60 //1 hour in ms
   }
 }))
 app.use(cookieParser("secretcode"))
@@ -63,6 +63,7 @@ mongoose.connect(process.env.DB_URL, dbOptions)
 
 //routes
 
+// check for authentication
 function ensureAuthenticated(req, res, next){
   if (req.isAuthenticated()) {
     next();
