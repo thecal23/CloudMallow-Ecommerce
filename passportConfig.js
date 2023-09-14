@@ -31,6 +31,7 @@ module.exports = function (passport) {
       const user = await Admin.findOne({ _id: id });
       cb(null, user);
     } catch (err) {
+      console.log(err)
       cb(err);
     }
   });

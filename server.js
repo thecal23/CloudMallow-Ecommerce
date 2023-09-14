@@ -8,7 +8,7 @@ const fs = require('fs')
 const path = require('path')
 const bodyParser = require('body-parser')
 require('dotenv/config')
-var cors = require('cors')
+const cors = require('cors')
 const stripe = require('stripe')('sk_test_51NIOh0C0WYouLypiG4kBFMczCjgNGr1c9tiJZkfOXlYFhx4hPNHYk5qHvmfVsoJF1rhENOHJbsX7KPX6ldnz0pYs00k6d2WSa0')
 const session = require("express-session")
 const passport = require('passport')
@@ -30,6 +30,17 @@ app.use(cors({
   origin: "http://localhost:3000", //<-- location of the react app we're connecting to
   credentials: true
 }))
+app.use(function(req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+  console.log("we in here")
+  next();
+});
 // Sessions
 app.use(session({
   secret: "secretcode",
@@ -55,25 +66,15 @@ mongoose.connect(process.env.DB_URL, dbOptions)
 function ensureAuthenticated(req, res, next){
   if (req.isAuthenticated()) {
     next();
+  } else {
+    // res.status(401).json({message: "Unauthorized"})
+    console.log("failed authentication : ",req.isAuthenticated())
+    res.redirect("http://localhost:3000/admin/login")
+    console.log("after redirect")
   }
-  res.status(401).json({message: "Unauthorized"})
 }
 
 //login
-// app.post("/admin/login", (req,res,next)=> {
-//   passport.authenticate("local", (err, user,info) => {
-//     if(err) throw err
-//     if(!user) res.send("No user exists")
-//     else {
-//       req.logIn(user, err => {
-//         if (err) throw err
-//         res.json({message:"Successfully Authenticated"})
-//         console.log(req.user)
-//       })
-//     }
-//   })(req,res,next)
-// })
-
 app.post("/admin/login", async (req, res) => {
   try {
     passport.authenticate("local", (err, user, info) => {
@@ -123,8 +124,32 @@ app.post("/admin/register", async (req, res) => {
 
 //Get username
 app.get("/admin/user", ensureAuthenticated, (req,res)=>{
-    res.json(req.user) // the req.user stores the entire user that has been authenticated
+    console.log("sending response header")
+    res.redirect("http://localhost:3000/")
+    // res.json(req.user) // the req.user stores the entire user that has been authenticated
 })
+
+// Logout
+app.get("/admin/logout", ensureAuthenticated, (req, res) => {
+  req.logout(function (err) {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: "An error occurred during logout" });
+    } else {
+      // Clear the user's session (destroy the session)
+      req.session.destroy(function (err) {
+        if (err) {
+          console.error(err);
+          res.status(500).json({ error: "An error occurred during session destruction" });
+        } else {
+          res.json({ message: "Logged out successfully" });
+        }
+      });
+    }
+  });
+});
+
+
 
 //Checkout creation
 app.post("/checkout", async (req,res) => {
@@ -333,7 +358,7 @@ app.get('/api/submit', (req, res) => {
   })
 
   //Fetch Customers
-  app.get("/customers-details", async (req,res) => {
+  app.get("/customers-details", ensureAuthenticated, async (req,res) => {
     try {
       const customersDetails = await Customers.find()
       

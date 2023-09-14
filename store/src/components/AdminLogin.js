@@ -76,7 +76,7 @@ function AdminLogin(){
           method: "GET",
           credentials: "include", // Use "include" to send credentials (cookies) with the request
         });
-
+        console.log(response)
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -89,6 +89,24 @@ function AdminLogin(){
         console.error("Error fetching user data:", error);
       }
     };
+
+    const logout = async () => {
+      try {
+        const response = await fetch("http://localhost:4000/admin/logout", {
+          method: "GET",
+          credentials: "include" 
+        })
+
+        if(!response.ok){
+          throw new Error("Network response was not ok")
+        }
+
+        console.log("User is logged out")
+
+      } catch (error){
+        console.error("Error logging out user : ", error)
+      }
+    }
     
     return (
         <>
@@ -110,6 +128,10 @@ function AdminLogin(){
             {
                 data ? <h1>Welcome Back {data.username}</h1> : null
             }
+        </div>
+        <div>
+            <h1>Logout</h1>
+            <button onClick={logout}>Submit</button>
         </div>
         </>
     )

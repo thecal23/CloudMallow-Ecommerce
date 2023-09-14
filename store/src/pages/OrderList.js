@@ -11,7 +11,9 @@ function OrderList(){
 
     const fetchOrderDetails = async () => {
         try {
-            const response = await fetch("http://localhost:4000/order-details")
+            const response = await fetch("http://localhost:4000/order-details", {
+                credentials: 'include'
+            })
             console.log(response)
             if (response.ok) {
                 console.log(response.ok)
@@ -19,7 +21,7 @@ function OrderList(){
                 setOrderDetails(data)
             } else {
                 console.log("trouble")
-                window.location.href = 'http://localhost:3000/admin/login'
+                // window.location.href = 'http://localhost:3000/admin/login'
             }
         } catch (error) {
             console.error("Error fetching checkout details", error)
