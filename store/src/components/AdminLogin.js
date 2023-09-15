@@ -79,11 +79,14 @@ function AdminLogin(){
         console.log(response)
         if (!response.ok) {
           throw new Error("Network response was not ok");
+        } else if (!response.redirected){
+          throw new Error("Redirected false")
         }
-    
-        const data = await response.json();
-        setData(data);
-        console.log("got a response")
+        window.location.href = response.url
+        
+        // const data = await response.json();
+        // setData(data);
+        // console.log("got a response")
         
       } catch (error) {
         console.error("Error fetching user data:", error);

@@ -12,6 +12,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import OrderList from './pages/OrderList';
 import CustomersList from './pages/CustomersList';
 import AdminLogin from './components/AdminLogin';
+import Testing from './components/Testing';
 import {useState, useEffect} from 'react'
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
             <Route path="admin/customerslist" element={<CustomersList/>} />
             <Route path="admin/orderlist" element={<OrderList/>} />
             <Route path="admin/login" element={<AdminLogin/>} />
+            <Route path="testing" element={<Testing/>} />
           </Routes>
         </BrowserRouter>
       </Container>

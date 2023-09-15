@@ -30,17 +30,13 @@ app.use(cors({
   origin: "http://localhost:3000", //<-- location of the react app we're connecting to
   credentials: true
 }))
-app.use(function(req, res, next) {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.header("Access-Control-Allow-Credentials", true);
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-  console.log("requested headers: ", req.headers)
-  next();
-});
+// app.use(function(req, res, next) {
+//   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+//   res.header("Access-Control-Allow-Credentials", true);
+  
+//   console.log("we in cors middleware")
+//   next();
+// });
 // Sessions
 app.use(session({
   secret: "secretcode",
@@ -71,9 +67,16 @@ function ensureAuthenticated(req, res, next){
     // res.status(401).json({message: "Unauthorized"})
     console.log("failed authentication : ",req.isAuthenticated())
     res.redirect("http://localhost:3000/admin/login")
-    console.log("after redirect")
+    console.log("inside ensureAuthenticated after redirect")
   }
 }
+
+//testing
+app.get("/testing", (req,res) => {
+  console.log("ure in the backend")
+  res.redirect("http://localhost:3000/")
+  console.log("after redirect")
+})
 
 //login
 app.post("/admin/login", async (req, res) => {
