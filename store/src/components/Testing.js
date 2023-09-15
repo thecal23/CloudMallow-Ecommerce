@@ -3,7 +3,8 @@ import React from 'react'
 function Testing() {
     function fetchData() {
         fetch("http://localhost:4000/testing", {
-            credentials: 'include'
+            mode: 'cors',
+            credentials: 'same-origin'
         })
           .then((response) => {
             if (!response.redirected) {

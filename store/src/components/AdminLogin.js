@@ -50,7 +50,7 @@ function AdminLogin(){
             username: loginUsername,
             password: loginPassword,
           }),
-          credentials: "include", // Include credentials (cookies)
+          credentials: "same-origin", // Include credentials (cookies)
         });
     
         if (response.ok) {
@@ -74,7 +74,7 @@ function AdminLogin(){
       try {
         const response = await fetch("http://localhost:4000/admin/user", {
           method: "GET",
-          credentials: "include", // Use "include" to send credentials (cookies) with the request
+          credentials: "same-origin", // Use "include" to send credentials (cookies) with the request
         });
         console.log(response)
         if (!response.ok) {
@@ -97,7 +97,7 @@ function AdminLogin(){
       try {
         const response = await fetch("http://localhost:4000/admin/logout", {
           method: "GET",
-          credentials: "include" 
+          credentials: "same-origin" 
         })
 
         if(!response.ok){

@@ -27,8 +27,8 @@ app.use(express.json())
 // app.use(bodyParser.urlencoded({extended: true}))
 // app.use(bodyParser.json())
 app.use(cors({
-  origin: "http://localhost:3000", //<-- location of the react app we're connecting to
-  credentials: true
+  origin: "http://localhost:3000",
+  credentials: true,
 }))
 // app.use(function(req, res, next) {
 //   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -323,23 +323,9 @@ app.get('/api/submit', (req, res) => {
     console.log("product mongo id : ",productId)
     const foundProducts = await Product.find({_id: productId},{stripeProductId: 1})
     
-    console.log("stripe id : ", foundProducts[0].stripeProductId)
-
-    /* const deleted = await stripe.products.del(
-      foundProducts[0].stripeProductId
-    ); */ //can't delete a product on Stripe if it has a price
-    const product = await stripe.products.retrieve(foundProducts[0].stripeProductId);
-    const priceObject = await stripe.prices.retrieve(product.default_price)
-    console.log("Price object: ", priceObject)
-    console.log("Price ID :", product.default_price)
-    return;
-    //const customers = await stripe.customers.list({limit: 3})
-    //console.log("customers: " , customers)
-    
-    //await stripe.prices.update(product.default_price,{active: false,})
-    
-    
-    
+    const stripeProductId = foundProducts[0].stripeProductId
+    console.log("stripe id : ", stripeProductId)
+    await stripe.products.update(stripeProductId, {active: false})
     Product.findOneAndDelete({_id:productId})
     .then(() => {
       res.sendStatus(200)
@@ -349,6 +335,21 @@ app.get('/api/submit', (req, res) => {
       console.log(error)
       res.sendStatus(500)
     })
+    return;
+    // /* const deleted = await stripe.products.del(
+    //   foundProducts[0].stripeProductId
+    // ); */ //can't delete a product on Stripe if it has a price
+    // const product = await stripe.products.retrieve(foundProducts[0].stripeProductId);
+    // const priceObject = await stripe.prices.retrieve(product.default_price)
+    // console.log("Price object: ", priceObject)
+    // console.log("Price ID :", product.default_price)
+    //const customers = await stripe.customers.list({limit: 3})
+    //console.log("customers: " , customers)
+    
+    //await stripe.prices.update(product.default_price,{active: false,})
+    
+    
+    
   })
 
   // Fetch and Update Orders and Create new Customers

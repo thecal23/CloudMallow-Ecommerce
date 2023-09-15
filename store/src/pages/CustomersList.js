@@ -11,7 +11,7 @@ function CustomersList(){
     const fetchCustomersDetails = async () => {
         try {
             const response = await fetch("http://localhost:4000/customers-details", {
-                credentials: 'include'
+                credentials: 'same-origin'
             })
             if (response.ok) {
                 const data = await response.json()
