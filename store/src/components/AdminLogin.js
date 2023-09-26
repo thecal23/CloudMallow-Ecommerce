@@ -1,4 +1,5 @@
 import React, {useState} from "react"
+import AdminNavbar from "./AdminNavbar"
 
 
 function AdminLogin(){
@@ -50,7 +51,7 @@ function AdminLogin(){
             username: loginUsername,
             password: loginPassword,
           }),
-          credentials: "same-origin", // Include credentials (cookies)
+          credentials: "include", // Include credentials (cookies)
         });
     
         if (response.ok) {
@@ -74,19 +75,26 @@ function AdminLogin(){
       try {
         const response = await fetch("http://localhost:4000/admin/user", {
           method: "GET",
-          credentials: "same-origin", // Use "include" to send credentials (cookies) with the request
+          credentials: "include", // Use "include" to send credentials (cookies) with the request
         });
         console.log(response)
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        } else if (!response.redirected){
-          throw new Error("Redirected false")
+        const data = await response.json()
+        if (data.url === "http://localhost:3000/admin/login"){
+          window.location.href = data.url
+        }  else if (!response.ok) {
+            throw new Error("Network response was not ok"); 
+        } else if (response.ok) {
+          console.log(data)
+          setData(data)
+          console.log("got a response")
         }
-        window.location.href = response.url
+        // else if (!response.redirected){
+        //   throw new Error("Redirected false")
+        // }
+        // window.location.href = response.url
         
         // const data = await response.json();
-        // setData(data);
-        // console.log("got a response")
+        
         
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -97,14 +105,15 @@ function AdminLogin(){
       try {
         const response = await fetch("http://localhost:4000/admin/logout", {
           method: "GET",
-          credentials: "same-origin" 
+          credentials: "include" 
         })
 
         if(!response.ok){
           throw new Error("Network response was not ok")
         }
-
-        console.log("User is logged out")
+        const data = await response.json()
+        console.log(data.message)
+        // console.log("User is logged out")
 
       } catch (error){
         console.error("Error logging out user : ", error)
@@ -113,29 +122,39 @@ function AdminLogin(){
     
     return (
         <>
-        <div>
-            <h1>Register</h1>
-            <input placeholder='username' onChange={e => setRegisterUsername(e.target.value)}/>
-            <input placeholder='password'onChange={e => setRegisterPassword(e.target.value)}/>
-            <button onClick={register}>Submit</button>
-        </div>
-        <div>
-            <h1>Login</h1>
-            <input placeholder='username' onChange={e => setLoginUsername(e.target.value)}/>
-            <input placeholder='password' onChange={e => setLoginPassword(e.target.value)}/>
-            <button onClick={login}>Submit</button>
-        </div>
-        <div>
-            <h1>Get User</h1>
-            <button onClick={getUser}>Submit</button>
-            {
-                data ? <h1>Welcome Back {data.username}</h1> : null
-            }
-        </div>
-        <div>
-            <h1>Logout</h1>
-            <button onClick={logout}>Submit</button>
-        </div>
+          
+            <div className="row">
+              <container className="vh-100 col-2">
+                  <AdminNavbar />
+              </container>
+              <container className="vh-100 col-5 overflow-auto m-3">
+                  <div className="col">
+                    <h1>Register</h1>
+                    <input className="form-control mb-2" placeholder='username' onChange={e => setRegisterUsername(e.target.value)}/>
+                    <input className="form-control mb-2" placeholder='password'onChange={e => setRegisterPassword(e.target.value)}/>
+                    <button className="btn btn-primary" onClick={register}>Submit</button>
+                  </div>
+                  <div className="col">
+                    <h1>Login</h1>
+                    <input className="form-control mb-2" placeholder='username' onChange={e => setLoginUsername(e.target.value)}/>
+                    <input className="form-control mb-2" placeholder='password' onChange={e => setLoginPassword(e.target.value)}/>
+                    <button className="btn btn-primary" onClick={login}>Submit</button>
+                  </div>
+                  {/* <div className="col">
+                      <h1>Get User</h1>
+                      <button className="btn btn-primary" onClick={getUser}>Submit</button>
+                      {
+                          data ? <h1>Welcome Back {data.username}</h1> : null
+                      }
+                  </div> */}
+                  <div className="row mt-5">
+                    <h1 className="text-center">Logout</h1>
+                    <button className="btn btn-primary" onClick={logout}>Submit</button>
+                  </div>
+              </container>
+              
+            </div>
+          
         </>
     )
 }

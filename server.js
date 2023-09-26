@@ -26,9 +26,10 @@ app.use(express.static("uploads"))
 app.use(express.json())
 // app.use(bodyParser.urlencoded({extended: true}))
 // app.use(bodyParser.json())
+
 app.use(cors({
-  origin: "http://localhost:3000",
-  credentials: true,
+  origin: 'http://localhost:3000',
+  credentials: true
 }))
 // app.use(function(req, res, next) {
 //   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -37,6 +38,7 @@ app.use(cors({
 //   console.log("we in cors middleware")
 //   next();
 // });
+
 // Sessions
 app.use(session({
   secret: "secretcode",
@@ -61,16 +63,27 @@ mongoose.connect(process.env.DB_URL, dbOptions)
 
 // check for authentication
 function ensureAuthenticated(req, res, next){
+  console.log(`ensureAuth!!!!!`)
   if (req.isAuthenticated()) {
+    console.log("authenticated")
     next();
   } else {
-    // res.status(401).json({message: "Unauthorized"})
+    // console.log("after failed authentication")
     console.log("failed authentication : ",req.isAuthenticated())
-    res.redirect("http://localhost:3000/admin/login")
+    res.json({url: "http://localhost:3000/admin/login"})
+    // res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000")
+    // res.redirect("http://localhost:3000/admin/login")
     console.log("inside ensureAuthenticated after redirect")
   }
 }
 
+//Get username
+app.get("/admin/user", ensureAuthenticated, (req,res)=>{
+    console.log("sending response header")
+    // res.redirect("http://localhost:3000/")
+    console.log("req.user : ",req.user)
+    res.json(req.user) // the req.user stores the entire user that has been authenticated
+})
 //testing
 app.get("/testing", (req,res) => {
   console.log("ure in the backend")
@@ -126,21 +139,17 @@ app.post("/admin/register", async (req, res) => {
   }
 });
 
-//Get username
-app.get("/admin/user", ensureAuthenticated, (req,res)=>{
-    console.log("sending response header")
-    res.redirect("http://localhost:3000/")
-    // res.json(req.user) // the req.user stores the entire user that has been authenticated
-})
 
 // Logout
 app.get("/admin/logout", ensureAuthenticated, (req, res) => {
+  console.log("inside logout session")
   req.logout(function (err) {
     if (err) {
       console.error(err);
       res.status(500).json({ error: "An error occurred during logout" });
     } else {
       // Clear the user's session (destroy the session)
+      console.log("req session destroy")
       req.session.destroy(function (err) {
         if (err) {
           console.error(err);
@@ -354,8 +363,12 @@ app.get('/api/submit', (req, res) => {
 
   // Fetch and Update Orders and Create new Customers
   app.get("/order-details", ensureAuthenticated, async (req,res) => {
+    
+    console.log(`order-details!!!!`)
+    
     try {
       const orderDetails = await Orders.find()
+      console.log("inside order details")
       res.json(orderDetails)
     } catch (error){
         res.status(500).json({ error: "Failed to fetch checkout details"})

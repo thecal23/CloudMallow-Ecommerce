@@ -38,8 +38,8 @@ function App() {
   }, []);
   return (
     <CartProvider products={products}>
-      <Container>
-        <NavbarComponent></NavbarComponent>
+      {/* <Container> */}
+        {/* <NavbarComponent></NavbarComponent> */}
         <BrowserRouter>
           <Routes>
             <Route index element={<Store products={products} />} />
@@ -52,7 +52,7 @@ function App() {
             <Route path="testing" element={<Testing/>} />
           </Routes>
         </BrowserRouter>
-      </Container>
+      {/* </Container> */}
     </CartProvider>
   );
 }
