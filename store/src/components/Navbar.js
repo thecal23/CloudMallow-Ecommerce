@@ -35,10 +35,10 @@ function NavbarComponent() {
 
     return (
         <>
-            <Navbar expand='sm'>
-                <Navbar.Brand href='/'>CloudMallow</Navbar.Brand>
+            <Navbar expand='sm' className="bg-dark text-light">
+                <Navbar.Brand className="text-light p-3" href='/'>CloudMallow</Navbar.Brand>
                 <Navbar.Toggle />
-                <Navbar.Collapse className="justify-content-end">
+                <Navbar.Collapse className="p-3 justify-content-end">
                     <Button onClick={handleShow}>Cart ({productsCount} items)</Button>
                 </Navbar.Collapse>
             </Navbar>

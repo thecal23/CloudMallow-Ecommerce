@@ -235,7 +235,7 @@ const upload = multer({storage: storage})
 
 
 // Fetch Products
-app.get('/api/submit', (req, res) => {
+app.get('/api/submit', ensureAuthenticated, (req, res) => {
     Product.find({})
       .then((data, err) => {
         if (err) {

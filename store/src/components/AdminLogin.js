@@ -127,19 +127,22 @@ function AdminLogin(){
               <container className="vh-100 col-2">
                   <AdminNavbar />
               </container>
-              <container className="vh-100 col-5 overflow-auto m-3">
-                  <div className="col">
+              <container className="vh-100 col overflow-auto m-3 d-flex flex-column justify-content-center align-items-center">
+                <div className="row">
+                  <div className="col d-flex flex-column justify-content-center align-items-center">
                     <h1>Register</h1>
                     <input className="form-control mb-2" placeholder='username' onChange={e => setRegisterUsername(e.target.value)}/>
                     <input className="form-control mb-2" placeholder='password'onChange={e => setRegisterPassword(e.target.value)}/>
-                    <button className="btn btn-primary" onClick={register}>Submit</button>
+                    <button className="btn btn-primary" onClick={register}>Register</button>
                   </div>
-                  <div className="col">
+                  <div className="col d-flex flex-column justify-content-center align-items-center">
                     <h1>Login</h1>
                     <input className="form-control mb-2" placeholder='username' onChange={e => setLoginUsername(e.target.value)}/>
                     <input className="form-control mb-2" placeholder='password' onChange={e => setLoginPassword(e.target.value)}/>
-                    <button className="btn btn-primary" onClick={login}>Submit</button>
+                    <button className="btn btn-primary" onClick={login}>Login</button>
                   </div>
+                </div>
+                  
                   {/* <div className="col">
                       <h1>Get User</h1>
                       <button className="btn btn-primary" onClick={getUser}>Submit</button>
@@ -147,10 +150,13 @@ function AdminLogin(){
                           data ? <h1>Welcome Back {data.username}</h1> : null
                       }
                   </div> */}
-                  <div className="row mt-5">
+                <div className="row m-5 ">
+                  <div className="col m-5 d-flex flex-column align-items-center">
                     <h1 className="text-center">Logout</h1>
-                    <button className="btn btn-primary" onClick={logout}>Submit</button>
+                    <button className="btn btn-primary m-3" onClick={logout}>Logout</button>
                   </div>
+                </div>  
+                  
               </container>
               
             </div>

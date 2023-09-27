@@ -17,9 +17,14 @@ const ProductTable = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/submit');
-      if (response.ok) {
-        const data = await response.json();
+      const response = await fetch('http://localhost:4000/api/submit', {
+        mode: 'cors',
+        credentials: 'include'
+      });
+      const data = await response.json()
+      if (data.url === "http://localhost:3000/admin/login"){
+        window.location.href = data.url
+      } else if (response.ok) {
         setProducts(data);
         console.log(products)
       } else {
