@@ -26,7 +26,7 @@ function ProductCards() {
 
   return (
     <div>
-        <h2 align="center" className="p-3">Marshmallows List</h2>
+        <h2 align="center" className="p-3">Menu</h2>
         <Row xs={1} md={3} className='g-4'>
             {products.map((product) => (
                 <Col align='center'>

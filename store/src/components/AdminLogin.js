@@ -132,13 +132,13 @@ function AdminLogin(){
                   <div className="col d-flex flex-column justify-content-center align-items-center">
                     <h1>Register</h1>
                     <input className="form-control mb-2" placeholder='username' onChange={e => setRegisterUsername(e.target.value)}/>
-                    <input className="form-control mb-2" placeholder='password'onChange={e => setRegisterPassword(e.target.value)}/>
+                    <input className="form-control mb-2" type= "password" placeholder='password'onChange={e => setRegisterPassword(e.target.value)}/>
                     <button className="btn btn-primary" onClick={register}>Register</button>
                   </div>
                   <div className="col d-flex flex-column justify-content-center align-items-center">
                     <h1>Login</h1>
                     <input className="form-control mb-2" placeholder='username' onChange={e => setLoginUsername(e.target.value)}/>
-                    <input className="form-control mb-2" placeholder='password' onChange={e => setLoginPassword(e.target.value)}/>
+                    <input className="form-control mb-2" type= "password" placeholder='password' onChange={e => setLoginPassword(e.target.value)}/>
                     <button className="btn btn-primary" onClick={login}>Login</button>
                   </div>
                 </div>

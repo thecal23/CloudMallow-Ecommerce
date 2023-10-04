@@ -18,7 +18,7 @@ function ProductCard({ product }) {
     }, [cart, product._id]);
   
     return (
-      <Card>
+      <Card className="col-9">
         <Card.Body>
           <Card.Img src={`http://localhost:4000/${product.image}`} />
           <Card.Title>{product.name}</Card.Title>
