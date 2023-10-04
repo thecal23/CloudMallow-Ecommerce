@@ -10,15 +10,17 @@ function Store(){
             </div>
             <div className="row navbar-bg-gradient vh-100">
                     
-                    <div className="col d-flex flex-column justify-content-center align-items-center p-5">
-                        <h1 className="brand">CloudMallow</h1>
-                        <h2 className="fluffy">Indulge in a World of Fluffy Delights</h2>
-                        <span className="px-5 py-2">Are you ready to elevate your snacking experience? At CloudMallow, we're on a mission to bring a touch of magic to your parties and everyday moments. Our homemade custom marshmallows are more than just treats; they're moments of pure bliss.</span>
-                        <button className="btn btn-danger">View Menu</button>
+                    <div className="col-6 d-flex flex-column justify-content-center align-items-start p-5">
+                        <container className="container1">
+                            <h1 className="brand">CloudMallow</h1>
+                            <h2 className="fluffy">Indulge in a World of Fluffy Delights</h2>
+                            <span className="py-2">Are you ready to elevate your snacking experience? At CloudMallow, we're on a mission to bring a touch of magic to your parties and everyday moments. Our homemade custom marshmallows are more than just treats; they're moments of pure bliss.</span>
+                            <button className="btn btn-danger d-block">View Menu</button>
+                        </container>
                     </div>
-                    {/* <div className="col-6 d-flex justify-content-center align-items-center">
-                        <img src="../../images/cotton-candy-marshmallow1.png"/>
-                    </div> */}
+                    <div className="col-6 d-flex justify-content-center align-items-center">
+                        <img src="../../images/assorted-pack.jpg"/>
+                    </div>
                 
                 
             </div>

@@ -96,8 +96,11 @@ table td.paid-status {
   background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%); */
   /* background: rgb(0,109,175);
 background: linear-gradient(90deg, rgba(0,109,175,1) 0%, rgba(6,163,238,1) 35%, rgba(0,212,255,1) 100%); */
-background-image: url("../public/images/marshmallow.jpg");
-/* height: 100vh; */
+/* background-image: url("../public/images/assorted-pack-cropped.jpeg");
+background-size:     cover;                      /* <------ */
+    /* background-repeat:   no-repeat;
+    background-position: center center; */
+    background-image: linear-gradient(to right bottom, #ffd7a2, #d7d79c, #add5a4, #88cfb5, #6fc5c6, #76c6c9, #7dc8cc, #84c9cf, #9fd7cc, #c0e4cc, #e0f0d2, #fffbdf);
 }
 
 .fluffy{
@@ -106,4 +109,8 @@ background-image: url("../public/images/marshmallow.jpg");
 
 .brand {
   font-family: 'Hachi Maru Pop', cursive;
+}
+
+.container1{
+  padding-left: 5rem;
 }
