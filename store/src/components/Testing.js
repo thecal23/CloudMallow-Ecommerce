@@ -1,5 +1,6 @@
 import React from 'react'
 import AdminNavbar from './AdminNavbar';
+import AddToCartButton from './AddToCartButton';
 
 function Testing() {
     function fetchData() {
@@ -25,6 +26,9 @@ function Testing() {
         <container className="vh-100 col-2">
           <AdminNavbar/>
         </container>
+        <div>
+          <AddToCartButton />
+        </div>
         <container className="col vh-100 overflow-auto">
           <div className="ml-3 mt-5 p-5 ">
             <h1>Testing </h1>

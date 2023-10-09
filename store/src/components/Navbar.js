@@ -2,6 +2,8 @@ import { Button, Container, Navbar, Modal, Nav} from 'react-bootstrap'
 import {useState, useContext} from 'react'
 import { CartContext } from '../CartContext'
 import CartProduct from './CartProduct'
+import {HiOutlineShoppingBag} from 'react-icons/hi2'
+import {FaShoppingBasket} from 'react-icons/fa'
 
 function NavbarComponent() {
     const cart = useContext(CartContext)
@@ -35,22 +37,22 @@ function NavbarComponent() {
 
     return (
         <>
-            <Navbar expand='sm' className="py-2 px-4 d-flex justify-content-between bg-dark text-light">
-                <Navbar.Brand className="text-light px-4 d-flex align-items-center" href='/'>
-                    <img src="../../images/cloudmallow-logo1.png" width="100rem" className="px-3"/>
-                    {/* <h2 className="brand">CloudMallow</h2> */}
-                </Navbar.Brand>
-                <div>
+            <Navbar expand='xs' className="d-flex justify-content-between text-light ">
+                <a class="navbarBrand" href='/'>
+                    <img src="../../images/cloudmallow-logo-3.png" width="150rem" className="mw-100"/>
+                </a>
+                <Button onClick={handleShow}><FaShoppingBasket className='shopping-cart-icon'/> ( {productsCount} items )</Button>
+                {/* <div className="">
                     <Navbar.Toggle className="text-light"/>
-                    <Navbar.Collapse className="px-4">
-                        <Nav className="text-light">
-                            <Nav.Link className="text-light" href="/">Home</Nav.Link>
-                            <Nav.Link className="text-light" href="#aboutus">About Us</Nav.Link>
-                            <Nav.Link className="text-light" href="/contactus">Contact Us</Nav.Link>
-                        </Nav>
-                        <Button onClick={handleShow}>Cart ({productsCount} items)</Button>
-                    </Navbar.Collapse>
-                </div>
+                    <Navbar.Collapse className=""> */}
+                        {/* <Nav className="d-flex justify-content-between">
+                            <Nav.Link className="navbarTextColor" href="/">Home</Nav.Link>
+                            <Nav.Link className="navbarTextColor" href="/aboutus">About Us</Nav.Link>
+                            <Nav.Link className="navbarTextColor" href="/contactus">Contact Us</Nav.Link>
+                        </Nav> */}
+                        {/* <Button onClick={handleShow}>Cart ({productsCount} items)</Button> */}
+                    {/* </Navbar.Collapse> */}
+                {/* </div> */}
             </Navbar>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
@@ -130,19 +132,3 @@ function NavbarComponent() {
 
 export default NavbarComponent;
 
-{/* <div className="modal-body">
-                    {productsCount > 0?
-                        <>
-                            <p>Items in your cart:</p>
-                            {cart.items.map((currentProduct, idx) => (
-                                <CartProduct key={idx} id={currentProduct.id} quantity={currentProduct.quantity}></CartProduct>
-                            ))}
-                            <h1>Total: {cart.getTotalCost().toFixed(2)}</h1>
-                            <Button variant='success' onClick={checkout}>
-                                Purchase items!
-                            </Button>
-                        </>
-                    :
-                    <h1>There are no items in your cart!</h1>
-                    }
-                </div> */}

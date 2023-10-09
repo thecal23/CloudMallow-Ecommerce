@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Card, Button, Form, Row, Col } from 'react-bootstrap';
 import { CartContext } from '../CartContext';
 import ProductCard from './ProductCard';
+import AddToCart from './AddToCart';
 
 function ProductCards() {
   const [products, setProducts] = useState([]);
@@ -26,8 +27,8 @@ function ProductCards() {
 
   return (
     <div>
-        <h2 align="center" className="p-3">Menu</h2>
-        <Row xs={1} md={3} className='g-4'>
+        {/* <h2 align="center" className="p-3">Menu</h2> */}
+        <Row xs={1} className='g-4'>
             {products.map((product) => (
                 <Col align='center'>
                     <ProductCard key={product._id} product={product} />

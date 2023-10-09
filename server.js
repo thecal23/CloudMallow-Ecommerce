@@ -232,6 +232,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({storage: storage})
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 // Fetch Products
@@ -278,7 +279,8 @@ app.get('/api/submit', (req, res) => {
       price,
       image: image.filename,
       stripeProductId: stripeProduct.id,
-      priceId: stripeProduct.default_price
+      priceId: stripeProduct.default_price,
+      display: false,
     });
   
     newMarshmallowProduct
@@ -293,6 +295,30 @@ app.get('/api/submit', (req, res) => {
       });
   });
   
+  // Update Selected Product
+  let selectedProduct = null;
+
+  app.post('/api/chosen-product', async (req, res) => {
+    selectedProduct = req.body
+    console.log("id: ", selectedProduct._id)
+    await Product.updateMany(
+      {$set: {"display": false}}
+    )
+    await Product.findOneAndUpdate(
+      {"_id": selectedProduct._id},
+      {$set: {"display": true}}
+    )
+    res.sendStatus(200)
+  })
+
+  // Get selected product
+  app.get('/api/chosen-product', async (req, res) => {
+    const selectedProduct = await Product.find(
+      {"display" : true}
+    )
+    console.log("selectedProduct: ",selectedProduct)
+    res.json(selectedProduct)
+  })
 
   // Update Products
   app.put('/api/submit/:productId', upload.single('image'), async (req, res) => {
@@ -332,9 +358,26 @@ app.get('/api/submit', (req, res) => {
     console.log("product mongo id : ",productId)
     const foundProducts = await Product.find({_id: productId},{stripeProductId: 1})
     
+    //deactivate in stripe
     const stripeProductId = foundProducts[0].stripeProductId
     console.log("stripe id : ", stripeProductId)
     await stripe.products.update(stripeProductId, {active: false})
+
+    //delete image in uploads folder
+    const imagePath = path.join(__dirname, "uploads", foundProducts)
+    if (fs.existsSync(imagePath)) {
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error("Error deleting the file",)
+        } else {
+          console.log("File deleted successfully")
+        }
+      })
+    } else {
+      console.log("File does not exist")
+    }
+    
+    //delete in mongodb
     Product.findOneAndDelete({_id:productId})
     .then(() => {
       res.sendStatus(200)

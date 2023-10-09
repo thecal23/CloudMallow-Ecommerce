@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import NavbarComponent from '../components/Navbar';
 
 function Success(){
     const location = useLocation();
@@ -36,7 +37,9 @@ function Success(){
 
     return(
         <>
-            
+            <div>
+                <NavbarComponent />
+            </div>
             {checkoutDetails.customer_details ? (
             <>    
             <h1>Thank you for your order {checkoutDetails.customer_details.name} </h1>

@@ -6,7 +6,9 @@ const productSchema = new Schema({
     price: Number, //price in cents
     image: String,
     stripeProductId: String,
-    priceId: String
+    priceId: String,
+    display: Boolean,
+    size: Number,
 })
 
 const ordersSchema = new Schema({

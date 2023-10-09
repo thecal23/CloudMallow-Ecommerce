@@ -76,6 +76,43 @@ const ProductTable = () => {
     }
   };
 
+  const handleSelectedProduct = async (product) => {
+    console.log("we inside handleSelectedProduct")
+    try {
+      const response = await fetch('http://localhost:4000/api/chosen-product', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(product),
+      });
+      if(response.ok){
+        console.log('Product chosen for the front end')
+      } else {
+        console.log("Failed to select product")
+      }
+    } catch (error){
+      console.log("Error: ", error.message)
+    }
+  }
+
+  const handleGetProduct = async () => {
+    console.log("we inside handle get product")
+    try {
+      const response = await fetch('http://localhost:4000/api/chosen-product', {
+        method: 'GET'
+      })
+      const data = await response.json()
+      if (response.ok){
+        console.log("data: ",data[0].name)
+      } else {
+        console.log("Error in get product")
+      }
+    } catch (error){
+      console.log("Error: ", error.message)
+    }
+  }
+
   const handleAddProduct = async () => {
     let parsedPrice = price
     parsedPrice = parseInt(parsedPrice.replace(".",""))
@@ -149,6 +186,10 @@ const ProductTable = () => {
                 <Button onClick={() => handleDeleteProduct(product._id)} variant="danger">
                   Delete
                 </Button>
+                <Button onClick={() => handleSelectedProduct(product)} variant="success">
+                  Select Display Product
+                </Button>
+                <Button onClick={() => handleGetProduct()} variant="warning">Get Display Product</Button>
               </td>
             </tr>
           ))}

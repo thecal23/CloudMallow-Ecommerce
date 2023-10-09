@@ -91,26 +91,192 @@ table td.paid-status {
   min-height: 100vh;
 }
 
-.navbar-bg-gradient{
-  /* background: rgb(238,174,202);
-  background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%); */
-  /* background: rgb(0,109,175);
-background: linear-gradient(90deg, rgba(0,109,175,1) 0%, rgba(6,163,238,1) 35%, rgba(0,212,255,1) 100%); */
-/* background-image: url("../public/images/assorted-pack-cropped.jpeg");
-background-size:     cover;                      /* <------ */
-    /* background-repeat:   no-repeat;
-    background-position: center center; */
-    background-image: linear-gradient(to right bottom, #ffd7a2, #d7d79c, #add5a4, #88cfb5, #6fc5c6, #76c6c9, #7dc8cc, #84c9cf, #9fd7cc, #c0e4cc, #e0f0d2, #fffbdf);
+.bgGradient{
+    /* background: linear-gradient(to right bottom, #ffd7a2, #d7d79c, #add5a4, #88cfb5, #6fc5c6, #76c6c9, #7dc8cc, #84c9cf, #9fd7cc, #c0e4cc, #e0f0d2, #fffbdf); */
+    /* background-image: linear-gradient(to right top, #c5e0ed, #b1d4e6, #9dc9df, #88bdd8, #72b2d1, #64a8c8, #569fc0, #4795b7, #408aab, #39809f, #327593, #2b6b87); */
+    background: #76b7d3;
+    background-size: cover;
 }
+@import url('https://fonts.googleapis.com/css2?family=Hind:wght@700&display=swap');
 
-.fluffy{
-  color: #F8A2CC;
+
+.navbarBrand{
+  width: fit-content;
 }
 
 .brand {
-  font-family: 'Hachi Maru Pop', cursive;
+  font-family: 'Hind', sans-serif;
+  color: #1f4c61;
+  font-size: 1.75rem;
+  line-height: 0.75;
+}
+
+.brand2{
+  color: #3789ae;
+  font-family: 'Hind', sans-serif;
+  font-size: 1.5rem;
 }
 
 .container1{
-  padding-left: 5rem;
+  /* padding-left: 3em; */
+  margin-top: 1.75rem;
+}
+
+.product{
+  /* display: block; */
+}
+
+.product-details{
+  font-size: large;
+  padding-top: 1rem;
+}
+
+.productImage{
+  width: 80vw;
+  border-radius: 1.875rem;
+  margin-top: 0rem;
+}
+
+.navbarTextColor{
+  color: #1f4c61;
+  font-size: 1.5rem;
+}
+
+.button-add-to-cart{
+  background-color: #2b6b87;
+}
+
+.emoji-list{
+  padding-bottom: 0.5rem;
+}
+.emoji-characteristics{
+  color: #1f4c61;
+  font-size: 1rem;
+  /* font-weight: bold; */
+  text-align: center;
+}
+.marshmallows-characteristics{
+  color: #1f4c61;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+.footer{
+  background-color:#3789ae;
+}
+.links{
+  text-decoration: none;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+.shopping-cart-icon{
+  font-size: larger;
+}
+.addtocartbutton{
+  background-color: #FA697C;
+  border-radius: 15rem;
+}
+.button-container{
+  margin-top: 10rem;
+}
+/* body { */
+  /* margin-top: 40px; This margin just makes the text easier to read. You can remove it if you want since it can mess with your other styles. */
+/* } */
+
+body::before {
+  content: "XS";
+  color: red;
+  font-size: 2rem;
+  font-weight: bold;
+  position: fixed;
+  top: 0;
+  right: 10;
+}
+.landing-page-xs {
+  display: flex;  
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* padding-top: 5rem; */
+  /* height: 100vh; */
+}
+
+
+@media (min-width: 576px) {
+  body::before {
+    content: "SM";
+  }
+  
+}
+
+@media (min-width: 768px) {
+  body::before {
+    content: "MD";
+  }
+  
+  .brand{
+    font-size: 4rem;
+    line-height: 0.9;
+  }
+  .brand2{
+    font-size: 4rem;
+    line-height: 0.9;
+  }
+  .productImage{
+    height: 60vh;
+    width: auto;
+  }
+  .emoji-characteristics{
+    color: #1f4c61;
+    font-size: 1.25rem;
+    /* font-weight: bold; */
+  }
+  .emoji-style{
+    font-size: 2rem;
+  }
+  
+}
+
+@media (min-width: 992px) {
+  body::before {
+    content: "LG";
+  }
+  
+
+}
+
+@media (min-width: 1200px) {
+  body::before {
+    content: "XL";
+  }
+  .landing-page-xl{
+    display: flex;
+    flex-direction: row;
+    height: 80vh;
+  }
+  .container1{
+    /* padding-right: 6rem; */
+  }
+  .productImage{
+    border-radius: 1.875rem;
+    height: 75vh;
+    width: auto;
+    margin-top: 0rem;
+  }
+  .brand{
+    text-align: left;
+    font-size: 6rem;
+    line-height: 0.9;
+  }
+  
+  .brand2{
+    font-size: 6rem;
+    line-height: 0.9;
+  }
+}
+
+@media (min-width: 1400px) {
+  body::before {
+    content: "XXL";
+  }
 }
