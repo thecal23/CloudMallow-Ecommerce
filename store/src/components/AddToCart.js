@@ -37,7 +37,7 @@ function AddToCart({ product }) {
                 </Button>
             </>
             ) : (
-                <Button className='addtocartbutton'  onClick={() => cart.addOneToCart(product._id)}>
+                <Button variant="logo-rim" onClick={() => cart.addOneToCart(product._id)}>
                     Add to Cart
                 </Button>
             )}

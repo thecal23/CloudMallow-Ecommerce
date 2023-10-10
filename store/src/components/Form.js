@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
 
 const Form = () => {
-  const [name, setName] = useState('');
+  const [title, setTitle] = useState('');
+  const [subTitle, setSubTitle] = useState('');
+  const [boxSize, setBoxSize] = useState('');
   const [price, setPrice] = useState('');
   const [image, setImage] = useState(null);
 
-  const handleNameChange = (e) => {
-    setName(e.target.value);
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
   };
 
+  const handleSubTitleChange = (e) => {
+    setSubTitle(e.target.value);
+  };
+  const handleBoxSizeChange = (e) => {
+    setBoxSize(e.target.value);
+  }
   const handlePriceChange = (e) => {
     setPrice(e.target.value);
   };
@@ -21,12 +29,14 @@ const Form = () => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append('name', name);
+    formData.append('title', title);
+    formData.append('subtitle', subTitle);
+    formData.append('boxSize', boxSize);
     formData.append('price', price);
     formData.append('image', image);
 
     try {
-      await fetch('http://localhost:4000/api/submit', {
+      await fetch('http://localhost:4000/api/form-testing', {
         method: 'POST',
         body: formData
       });
@@ -39,35 +49,76 @@ const Form = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="name">Name:</label>
-        <input
-          type="text"
-          id="name"
-          value={name}
-          onChange={handleNameChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="price">Price:</label>
-        <input
-          type="number"
-          id="price"
-          value={price}
-          onChange={handlePriceChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="image">Image:</label>
-        <input
-          type="file"
-          id="image"
-          onChange={handleImageChange}
-        />
-      </div>
-      <button type="submit">Submit</button>
-    </form>
+    <>
+      {/* <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="Title">Title:</label>
+          <input
+            type="text"
+            id="title"
+            value={title}
+            onChange={handleTitleChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="SubTitle">Sub Title:</label>
+          <input
+            type="text"
+            id="subtitle"
+            value={subTitle}
+            onChange={handleSubTitleChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="boxSize">Box Size:</label>
+          <input
+            type="number"
+            id="boxsize"
+            value={boxSize}
+            onChange={handleBoxSizeChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="price">Price:</label>
+          <input
+            type="number"
+            id="price"
+            value={price}
+            onChange={handlePriceChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="image">Image:</label>
+          <input
+            type="file"
+            id="image"
+            onChange={handleImageChange}
+          />
+        </div>
+        <button type="submit">Submit</button>
+      </form> */}
+      <form>
+        <label for="title" className="form-label">Title</label>
+        <input type="text" id="title" class="form-control" value={title} onChange={(e) => {setTitle(e.target.value)}}></input>
+
+        <label for="subtitle" className="form-label">Sub Title</label>
+        <input type="text" id="subtitle" class="form-control" value={subTitle} onChange={(e) => {setSubTitle(e.target.value)}}></input>
+
+        <label for="boxSize" className="form-label">Box Size</label>
+        <input type="number" id="boxSize" class="form-control" value={boxSize} onChange={(e) => {setBoxSize(e.target.value)}}></input>
+
+        <label for="price" className="form-label">Price per Box</label>
+        <input type="number" id="price" class="form-control" value={price} onChange={(e) => {setPrice(e.target.value)}}></input>
+
+        <label for="image" className="form-label">Image</label>
+        <input type="file" id="image" class="form-control" value={image} onChange={(e) => {setImage(e.target.value)}}></input>
+        
+        <div className="d-flex justify-content-center mt-3">
+          <button type="submit" className="btn btn-logo-rim" onSubmit={handleSubmit}>Submit</button>
+        </div>
+      </form>
+    </>
+    
   );
 };
 

@@ -58,16 +58,16 @@ function Store(){
                 <div className="container">
                     <NavbarComponent />
                 </div>
-                <div className="row container mx-auto landing-page-xs landing-page-xl">
+                <div className="row container mt-3 mx-auto landing-page-xs landing-page-xl">
                     <div className=" mx-auto col d-flex justify-content-center align-items-start order-xl-2">
-                        <img className="productImage" src={`http://localhost:4000/uploads/${selectedProduct.image}`} alt="product image"/>
+                        <img className="productImage" src={`http://localhost:4000/uploads/${selectedProduct ? selectedProduct.image : "cloudmallow-logo.jpeg"}`} alt="product image"/>
                     </div>
                     <div className="col d-flex justify-content-center align-items-center">
                         <div className="container1 d-flex flex-column justify-content-center align-items-center justify-content-xl-center align-items-xl-start">
                             <div className="row w-100">                                
                                 <h1 className="brand d-flex justify-content-center justify-content-xl-start">Taste the Rainbow</h1>
                                 <h1 className="brand2 d-flex justify-content-center justify-content-xl-start">Assorted Box</h1>
-                                <span>{selectedProduct ? selectedProduct.name : "Loading"}</span>                                
+                                {/* <span>{selectedProduct ? selectedProduct.name : "Loading"}</span>                                 */}
                             </div>
                             <div className='row w-100 '>
                                 <ul className='list-unstyled'>
@@ -85,14 +85,14 @@ function Store(){
                             </div>
                             <div className="row pt-3 button-container">
                                 <div className="text-center">
-                                    <span className='h-100'><b>{products.length > 0 ? addDecimal(products[0].price)  : <div>Loading</div>} $ / box</b></span>
+                                    <span className='h-100'><b>{selectedProduct ? addDecimal(selectedProduct.price)  : <div>Loading</div>} $ / box</b></span>
                                     <AddToCartButton />
                                 </div>
                             </div>
                         </div>
                     </div>                        
                 </div>
-                <div className='footer mt-5'>
+                <div className='footer mt-4'>
                     <Footer />
                 </div>
             </div>   

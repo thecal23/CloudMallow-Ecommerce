@@ -1,6 +1,7 @@
 import React from 'react'
 import AdminNavbar from './AdminNavbar';
 import AddToCartButton from './AddToCartButton';
+import Form from './Form';
 
 function Testing() {
     function fetchData() {
@@ -29,6 +30,7 @@ function Testing() {
         <div>
           <AddToCartButton />
         </div>
+        <div className="container d-flex justify-content-center mt-5"><Form /></div>
         <container className="col vh-100 overflow-auto">
           <div className="ml-3 mt-5 p-5 ">
             <h1>Testing </h1>

@@ -2,13 +2,14 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const productSchema = new Schema({
-    name: String,
+    title: String,
+    subTitle: String,
     price: Number, //price in cents
     image: String,
     stripeProductId: String,
     priceId: String,
     display: Boolean,
-    size: Number,
+    boxSize: Number,
 })
 
 const ordersSchema = new Schema({

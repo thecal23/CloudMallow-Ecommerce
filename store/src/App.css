@@ -94,7 +94,7 @@ table td.paid-status {
 .bgGradient{
     /* background: linear-gradient(to right bottom, #ffd7a2, #d7d79c, #add5a4, #88cfb5, #6fc5c6, #76c6c9, #7dc8cc, #84c9cf, #9fd7cc, #c0e4cc, #e0f0d2, #fffbdf); */
     /* background-image: linear-gradient(to right top, #c5e0ed, #b1d4e6, #9dc9df, #88bdd8, #72b2d1, #64a8c8, #569fc0, #4795b7, #408aab, #39809f, #327593, #2b6b87); */
-    background: #76b7d3;
+    background: white;
     background-size: cover;
 }
 @import url('https://fonts.googleapis.com/css2?family=Hind:wght@700&display=swap');
@@ -106,13 +106,13 @@ table td.paid-status {
 
 .brand {
   font-family: 'Hind', sans-serif;
-  color: #1f4c61;
+  color: #3f78af;
   font-size: 1.75rem;
   line-height: 0.75;
 }
 
 .brand2{
-  color: #3789ae;
+  color: #a6d8e3;
   font-family: 'Hind', sans-serif;
   font-size: 1.5rem;
 }
@@ -142,8 +142,8 @@ table td.paid-status {
   font-size: 1.5rem;
 }
 
-.button-add-to-cart{
-  background-color: #2b6b87;
+.add-to-cart-button{
+  background-color: #3f78af;
 }
 
 .emoji-list{
@@ -161,9 +161,10 @@ table td.paid-status {
   font-weight: bold;
 }
 .footer{
-  background-color:#3789ae;
+  background-color:#a6d8e3;
 }
 .links{
+  color: #3f78af;
   text-decoration: none;
   text-align: center;
   font-weight: bold;

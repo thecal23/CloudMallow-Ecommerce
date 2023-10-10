@@ -39,9 +39,9 @@ function NavbarComponent() {
         <>
             <Navbar expand='xs' className="d-flex justify-content-between text-light ">
                 <a class="navbarBrand" href='/'>
-                    <img src="../../images/cloudmallow-logo-3.png" width="150rem" className="mw-100"/>
+                    <img src="../../images/cloudmallow-logo1.png" width="80rem" className="mw-100"/>
                 </a>
-                <Button onClick={handleShow}><FaShoppingBasket className='shopping-cart-icon'/> ( {productsCount} items )</Button>
+                <Button variant="logo-rim" onClick={handleShow}><FaShoppingBasket className='shopping-cart-icon'/> ( {productsCount} items )</Button>
                 {/* <div className="">
                     <Navbar.Toggle className="text-light"/>
                     <Navbar.Collapse className=""> */}
