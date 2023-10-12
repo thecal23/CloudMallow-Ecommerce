@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const productSchema = new Schema({
     title: String,
-    subTitle: String,
+    subtitle: String,
     price: Number, //price in cents
     image: String,
     stripeProductId: String,
@@ -50,8 +50,10 @@ const customersSchema = new Schema({
 })
 
 const adminSchema = new Schema({
-    username: String,
-    password: String
+    email: String,
+    password: String,
+    firstName: String,
+    lastName: String
 })
 
 const Product = mongoose.model("Marshmallow", productSchema, 'marshmallow_flavors')

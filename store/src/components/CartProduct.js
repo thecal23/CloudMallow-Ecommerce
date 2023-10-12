@@ -13,8 +13,8 @@ function CartProduct(props){
 
     return (
         <>  
-            <h3>{productData.name}</h3>
-            <p>{quantity} total</p>
+            <h3>{productData.title} {productData.subtitle}</h3>
+            <p>{quantity} box total</p>
             <p>{(quantity * addDecimal(productData.price)).toFixed(2)}$</p>
             <Button size='sm' onClick={()=> cart.deleteFromCart(id)}>Remove</Button>
             <hr></hr>

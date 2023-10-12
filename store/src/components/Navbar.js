@@ -1,9 +1,9 @@
-import { Button, Container, Navbar, Modal, Nav} from 'react-bootstrap'
-import {useState, useContext} from 'react'
+import { Button, Container, Navbar, Modal, Nav } from 'react-bootstrap'
+import { useState, useContext } from 'react'
 import { CartContext } from '../CartContext'
 import CartProduct from './CartProduct'
-import {HiOutlineShoppingBag} from 'react-icons/hi2'
-import {FaShoppingBasket} from 'react-icons/fa'
+import { HiOutlineShoppingBag } from 'react-icons/hi2'
+import { FaShoppingBasket } from 'react-icons/fa'
 
 function NavbarComponent() {
     const cart = useContext(CartContext)
@@ -18,65 +18,66 @@ function NavbarComponent() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({items: cart.items})
+            body: JSON.stringify({ items: cart.items })
         })
-        .then((response) => {
-            return response.json()
-        })
-        .then((response) => {
-            if(response.url){
-                const { url, checkoutSessionId, success_url } = response;
-                console.log(success_url)
-                window.location.assign(url); //forwarding user to stripe
-            }
-        })
-            
+            .then((response) => {
+                return response.json()
+            })
+            .then((response) => {
+                if (response.url) {
+                    const { url, checkoutSessionId, success_url } = response;
+                    console.log(success_url)
+                    window.location.assign(url); //forwarding user to stripe
+                }
+            })
+
     }
 
     const productsCount = cart.items.reduce((sum, product) => sum + product.quantity, 0)
 
     return (
         <>
-            <Navbar expand='xs' className="d-flex justify-content-between text-light ">
-                <a class="navbarBrand" href='/'>
-                    <img src="../../images/cloudmallow-logo1.png" width="80rem" className="mw-100"/>
-                </a>
-                <Button variant="logo-rim" onClick={handleShow}><FaShoppingBasket className='shopping-cart-icon'/> ( {productsCount} items )</Button>
-                {/* <div className="">
+            <div className="container">
+                <Navbar expand='xs' className="d-flex justify-content-between text-light ">
+                    <a className="navbarBrand" href='/'>
+                        <img src="../../images/cloudmallow-logo1.png" width="80rem" className="mw-100" />
+                    </a>
+                    <Button variant="logo-rim" onClick={handleShow}><FaShoppingBasket className='shopping-cart-icon' /> ( {productsCount} items )</Button>
+                    {/* <div className="">
                     <Navbar.Toggle className="text-light"/>
                     <Navbar.Collapse className=""> */}
-                        {/* <Nav className="d-flex justify-content-between">
+                    {/* <Nav className="d-flex justify-content-between">
                             <Nav.Link className="navbarTextColor" href="/">Home</Nav.Link>
                             <Nav.Link className="navbarTextColor" href="/aboutus">About Us</Nav.Link>
                             <Nav.Link className="navbarTextColor" href="/contactus">Contact Us</Nav.Link>
                         </Nav> */}
-                        {/* <Button onClick={handleShow}>Cart ({productsCount} items)</Button> */}
+                    {/* <Button onClick={handleShow}>Cart ({productsCount} items)</Button> */}
                     {/* </Navbar.Collapse> */}
-                {/* </div> */}
-            </Navbar>
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Shopping Cart</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    {productsCount > 0?
-                        <>
-                            <p>Items in your cart:</p>
-                            {cart.items.map((currentProduct, idx) => (
-                                <CartProduct key={idx} id={currentProduct.id} quantity={currentProduct.quantity}></CartProduct>
-                            ))}
+                    {/* </div> */}
+                </Navbar>
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Shopping Cart</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {productsCount > 0 ?
+                            <>
+                                <p>Items in your cart:</p>
+                                {cart.items.map((currentProduct, idx) => (
+                                    <CartProduct key={idx} id={currentProduct.id} quantity={currentProduct.quantity}></CartProduct>
+                                ))}
 
-                            <h1>Total: {cart.getTotalCost().toFixed(2)}</h1>
-                            <Button variant='success' onClick={checkout}>
-                                Purchase items!
-                            </Button>
-                        </>
-                    :
-                    <h1>There are no items in your cart!</h1>
-                    }
-                </Modal.Body>
-            </Modal>
-            {/* <nav className="navbar navbar-expand-sm navbar-dark">
+                                <h1>Total: {cart.getTotalCost().toFixed(2)}</h1>
+                                <Button variant='success' onClick={checkout}>
+                                    Purchase items!
+                                </Button>
+                            </>
+                            :
+                            <h1>There are no items in your cart!</h1>
+                        }
+                    </Modal.Body>
+                </Modal>
+                {/* <nav className="navbar navbar-expand-sm navbar-dark">
                 <div className="container">
                     <a href="/" className="navbar-brand">CloudMallow</a>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navmenu">
@@ -123,6 +124,7 @@ function NavbarComponent() {
                     </div>
                 </div>
             </div> */}
+            </div>
         </>
     )
 

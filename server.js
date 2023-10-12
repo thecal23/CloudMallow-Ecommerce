@@ -94,7 +94,7 @@ app.get("/testing", (req,res) => {
 //login
 app.post("/admin/login", async (req, res) => {
   try {
-    passport.authenticate("local", (err, user, info) => {
+    passport.authenticate("local", (err, user, info) => { //in a typical local strategy Passport expects the 'username' and 'password' fields in the request body. Our username will be the email. 
       if (err) {
         throw err;
       }
@@ -106,8 +106,8 @@ app.post("/admin/login", async (req, res) => {
             throw err;
           }
           res.json({ message: "Successfully Authenticated" });
-          console.log(req.user);
-          console.log(req.session)
+          console.log("req.user: ",req.user);
+          console.log("req.session: ",req.session)
         });
       }
     })(req, res);
@@ -121,14 +121,16 @@ app.post("/admin/login", async (req, res) => {
 //register
 app.post("/admin/register", async (req, res) => {
   try {
-    const existingAdmin = await Admin.findOne({ username: req.body.username });
+    const existingAdmin = await Admin.findOne({ email: req.body.email });
     if (existingAdmin) {
       res.send("Admin already exists");
     } else {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       const newAdmin = new Admin({
-        username: req.body.username,
+        email: req.body.email,
         password: hashedPassword,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName
       });
       await newAdmin.save();
       res.json({message: "User Created"});
@@ -166,7 +168,7 @@ app.get("/admin/logout", ensureAuthenticated, (req, res) => {
 
 //Checkout creation
 app.post("/checkout", async (req,res) => {
-    
+    console.log("we inside checkout", req.body.items)
     console.log("checkout", req.body)
     const items = req.body.items
     let lineItems = []
@@ -254,10 +256,13 @@ app.get('/api/submit', (req, res) => {
   
   // Add products
   app.post('/api/submit', upload.single('image'), async (req, res) => {
-    const { name, price } = req.body;
+    const { title, subtitle, boxSize, price } = req.body;
     const image = req.file;
+    const name = title + " " + subtitle;
+    console.log(name)
+    console.log(req.body.title)
+    console.log(image)
 
-    console.log(req.body.name)
   
     // Process the form data and save it to the database
     // Example: Save formData to MongoDB using Mongoose
@@ -269,14 +274,19 @@ app.get('/api/submit', (req, res) => {
         unit_amount_decimal: price
       },
       images: [image.filename],
+      metadata: {
+        boxSize: boxSize
+      }
     });
 
     console.log("Product added to stripe", stripeProduct)
     console.log('PRODUCT ID', stripeProduct.id)
   
     const newMarshmallowProduct = new Product({
-      name,
-      price,
+      title: title,
+      subtitle: subtitle,
+      boxSize: boxSize,
+      price: price,
       image: image.filename,
       stripeProductId: stripeProduct.id,
       priceId: stripeProduct.default_price,
@@ -296,7 +306,7 @@ app.get('/api/submit', (req, res) => {
   });
   
   // Update Selected Product
-  let selectedProduct = null;
+  // let selectedProduct = null;
 
   app.post('/api/chosen-product', async (req, res) => {
     selectedProduct = req.body
@@ -356,15 +366,11 @@ app.get('/api/submit', (req, res) => {
     
     const productId = req.params.productId
     console.log("product mongo id : ",productId)
-    const foundProducts = await Product.find({_id: productId},{stripeProductId: 1})
-    
-    //deactivate in stripe
-    const stripeProductId = foundProducts[0].stripeProductId
-    console.log("stripe id : ", stripeProductId)
-    await stripe.products.update(stripeProductId, {active: false})
+    const foundProducts = await Product.find({_id: productId})
+    const productImage= foundProducts[0].image
 
     //delete image in uploads folder
-    const imagePath = path.join(__dirname, "uploads", foundProducts)
+    const imagePath = path.join(__dirname, "uploads", productImage)
     if (fs.existsSync(imagePath)) {
       fs.unlink(imagePath, (err) => {
         if (err) {
@@ -376,6 +382,12 @@ app.get('/api/submit', (req, res) => {
     } else {
       console.log("File does not exist")
     }
+    //deactivate in stripe
+    const stripeProductId = foundProducts[0].stripeProductId
+    console.log("stripe id : ", stripeProductId)
+    await stripe.products.update(stripeProductId, {active: false})
+    console.log("Deactivated in stripe")
+
     
     //delete in mongodb
     Product.findOneAndDelete({_id:productId})

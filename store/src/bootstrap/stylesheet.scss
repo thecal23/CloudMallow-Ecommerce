@@ -3,7 +3,8 @@
 @import "../../node_modules/bootstrap/scss/mixins";
 
 $custom-colors: (
-    "logo-rim": #3f78af
+    "logo-rim": #3f78af,
+    "logo": #a6d8e3,
 );
     
 $theme-colors: map-merge($theme-colors, $custom-colors);

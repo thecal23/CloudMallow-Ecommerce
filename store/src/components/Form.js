@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const Form = () => {
   const [title, setTitle] = useState('');
-  const [subTitle, setSubTitle] = useState('');
+  const [subtitle, setSubtitle] = useState('');
   const [boxSize, setBoxSize] = useState('');
   const [price, setPrice] = useState('');
   const [image, setImage] = useState(null);
@@ -12,7 +12,7 @@ const Form = () => {
   };
 
   const handleSubTitleChange = (e) => {
-    setSubTitle(e.target.value);
+    setSubtitle(e.target.value);
   };
   const handleBoxSizeChange = (e) => {
     setBoxSize(e.target.value);
@@ -30,7 +30,7 @@ const Form = () => {
 
     const formData = new FormData();
     formData.append('title', title);
-    formData.append('subtitle', subTitle);
+    formData.append('subtitle', subtitle);
     formData.append('boxSize', boxSize);
     formData.append('price', price);
     formData.append('image', image);
@@ -99,20 +99,20 @@ const Form = () => {
       </form> */}
       <form>
         <label for="title" className="form-label">Title</label>
-        <input type="text" id="title" class="form-control" value={title} onChange={(e) => {setTitle(e.target.value)}}></input>
+        <input type="text" id="title" className="form-control" value={title} onChange={(e) => {setTitle(e.target.value)}}></input>
 
         <label for="subtitle" className="form-label">Sub Title</label>
-        <input type="text" id="subtitle" class="form-control" value={subTitle} onChange={(e) => {setSubTitle(e.target.value)}}></input>
+        <input type="text" id="subtitle" className="form-control" value={subtitle} onChange={(e) => {setSubtitle(e.target.value)}}></input>
 
         <label for="boxSize" className="form-label">Box Size</label>
-        <input type="number" id="boxSize" class="form-control" value={boxSize} onChange={(e) => {setBoxSize(e.target.value)}}></input>
+        <input type="number" id="boxSize" className="form-control" value={boxSize} onChange={(e) => {setBoxSize(e.target.value)}}></input>
 
         <label for="price" className="form-label">Price per Box</label>
-        <input type="number" id="price" class="form-control" value={price} onChange={(e) => {setPrice(e.target.value)}}></input>
+        <input type="number" id="price" className="form-control" value={price} onChange={(e) => {setPrice(e.target.value)}}></input>
 
         <label for="image" className="form-label">Image</label>
-        <input type="file" id="image" class="form-control" value={image} onChange={(e) => {setImage(e.target.value)}}></input>
-        
+        <input type="file" id="image" className="form-control" value={image} onChange={(e) => {setImage(e.target.value)}}></input>
+
         <div className="d-flex justify-content-center mt-3">
           <button type="submit" className="btn btn-logo-rim" onSubmit={handleSubmit}>Submit</button>
         </div>

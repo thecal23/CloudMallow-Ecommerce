@@ -7,7 +7,9 @@ const ProductTable = () => {
   const [products, setProducts] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [name, setName] = useState('');
+  const [title, setTitle] = useState('');
+  const [subtitle, setSubtitle] = useState('');
+  const [boxSize, setBoxSize] = useState(0);
   const [price, setPrice] = useState(0);
   const [image, setImage] = useState(null);
 
@@ -38,7 +40,9 @@ const ProductTable = () => {
 
   const handleEditProduct = (product) => {
     setEditingProduct(product);
-    setName(product.name);
+    setTitle(product.title);
+    setSubtitle(product.subtitle);
+    setBoxSize(product.boxSize)
     setPrice(product.price);
     setImage(product.image);
     setShowModal(true);
@@ -59,7 +63,9 @@ const ProductTable = () => {
   const handleUpdateProduct = async () => {
     
     const formData = new FormData();
-    formData.append('name', name);
+    formData.append('title', title);
+    formData.append('subtitle', subtitle);
+    formData.append('boxSize', boxSize)
     formData.append('price', price);
     formData.append('image', image);
     console.log(editingProduct._id)
@@ -118,7 +124,9 @@ const ProductTable = () => {
     parsedPrice = parseInt(parsedPrice.replace(".",""))
 
     const formData = new FormData();
-    formData.append('name', name);
+    formData.append('title', title);
+    formData.append('subtitle', subtitle);
+    formData.append('boxSize', boxSize);
     formData.append('price', parsedPrice);
     formData.append('image', image);
     console.log(formData)
@@ -143,9 +151,9 @@ const ProductTable = () => {
     
   };
 
-  const handleNameChange = (e) => {
-    setName(e.target.value);
-  };
+  // const handleNameChange = (e) => {
+  //   setName(e.target.value);
+  // };
 
   const handlePriceChange = (e) => {
     setPrice(e.target.value);
@@ -158,7 +166,9 @@ const ProductTable = () => {
   const handleCloseModal = () => {
     setShowModal(false);
     setEditingProduct(null);
-    setName('');
+    setTitle('');
+    setSubtitle('');
+    setBoxSize(0)
     setPrice('');
     setImage(null);
   };
@@ -177,7 +187,7 @@ const ProductTable = () => {
         <tbody>
           {products.map((product) => (
             <tr key={product._id}>
-              <td>{product.name}</td>
+              <td>{product.title} {product.subtitle}</td>
               <td>{addDecimal(product.price)}$</td>
               <td>
                 <Button onClick={() => handleEditProduct(product)} variant="info">
@@ -205,20 +215,26 @@ const ProductTable = () => {
           <Modal.Title>{editingProduct ? 'Edit Product' : 'Add New Product'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
-            <Form.Group controlId="name">
-              <Form.Label>Name</Form.Label>
-              <Form.Control type="text" value={name} onChange={handleNameChange} />
-            </Form.Group>
-            <Form.Group controlId="price">
-              <Form.Label>Price</Form.Label>
-              <CurrencyInput  value={price} prefix="$" onValueChange={(value) => {setPrice(value); console.log(value)}} />
-            </Form.Group>
-            <Form.Group controlId="image">
-              <Form.Label>Image</Form.Label>
-              <Form.Control type="file" onChange={handleImageChange} />
-            </Form.Group>
-          </Form>
+          <form>
+            <label for="title" className="form-label">Title</label>
+            <input type="text" id="title" className="form-control" value={title} onChange={(e) => { setTitle(e.target.value) }}></input>
+
+            <label for="subtitle" className="form-label">Sub Title</label>
+            <input type="text" id="subtitle" className="form-control" value={subtitle} onChange={(e) => { setSubtitle(e.target.value) }}></input>
+
+            <label for="boxSize" className="form-label">Box Size</label>
+            <input type="number" id="boxSize" className="form-control" value={boxSize} onChange={(e) => { setBoxSize(e.target.value) }}></input>
+
+            <label for="price" className="form-label">Price per Box</label>
+            <input type="number" id="price" className="form-control" value={price} onChange={(e) => { setPrice(e.target.value) }}></input>
+
+            <label for="image" className="form-label">Image</label>
+            <input type="file" id="image" className="form-control" onChange={(e) => { setImage(e.target.files[0]) }}></input>
+
+            {/* <div className="d-flex justify-content-center mt-3">
+              <button type="submit" className="btn btn-logo-rim" onSubmit={handleSubmit}>Submit</button>
+            </div> */}
+          </form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>

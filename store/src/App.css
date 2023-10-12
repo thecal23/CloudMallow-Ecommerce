@@ -122,9 +122,7 @@ table td.paid-status {
   margin-top: 1.75rem;
 }
 
-.product{
-  /* display: block; */
-}
+
 
 .product-details{
   font-size: large;
@@ -255,9 +253,7 @@ body::before {
     flex-direction: row;
     height: 80vh;
   }
-  .container1{
-    /* padding-right: 6rem; */
-  }
+  
   .productImage{
     border-radius: 1.875rem;
     height: 75vh;

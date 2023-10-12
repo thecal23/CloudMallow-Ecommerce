@@ -15,6 +15,9 @@ import CustomersList from './pages/CustomersList';
 import AdminLogin from './components/AdminLogin';
 import Testing from './components/Testing';
 import {useState, useEffect} from 'react'
+import Registration from './pages/Registration';
+import Login from './pages/Login';
+import ContactUs from './pages/ContactUs';
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -49,8 +52,10 @@ function App() {
             <Route path="admin" element={<AdminDashboard/>} />
             <Route path="admin/customerslist" element={<CustomersList/>} />
             <Route path="admin/orderlist" element={<OrderList/>} />
-            <Route path="admin/login" element={<AdminLogin/>} />
+            <Route path="admin/login" element={<Login/>} />
             <Route path="testing" element={<Testing/>} />
+            <Route path="admin/registration" element={<Registration />} />
+            <Route path="contactus" element={<ContactUs />} />
           </Routes>
         </BrowserRouter>
       {/* </Container> */}

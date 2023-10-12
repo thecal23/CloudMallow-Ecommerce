@@ -65,24 +65,23 @@ function Store(){
                     <div className="col d-flex justify-content-center align-items-center">
                         <div className="container1 d-flex flex-column justify-content-center align-items-center justify-content-xl-center align-items-xl-start">
                             <div className="row w-100">                                
-                                <h1 className="brand d-flex justify-content-center justify-content-xl-start">Taste the Rainbow</h1>
-                                <h1 className="brand2 d-flex justify-content-center justify-content-xl-start">Assorted Box</h1>
+                                <h1 className="brand d-flex justify-content-center justify-content-xl-start">{selectedProduct ? selectedProduct.title : "Welcome to CloudMallow the page is loading"}</h1>
+                                <h1 className="brand2 d-flex justify-content-center justify-content-xl-start">{selectedProduct ? selectedProduct.subtitle : null}</h1>
                                 {/* <span>{selectedProduct ? selectedProduct.name : "Loading"}</span>                                 */}
                             </div>
                             <div className='row w-100 '>
                                 <ul className='list-unstyled'>
                                     <li className='product-details'><b>Perfect for Any Occasion: </b>Whether it's a self-indulgent treat or a thoughtful gift, our Assorted Marshmallow Box adds a touch of magic to any moment, making it an ideal choice for sweetening your day or surprising a loved one.</li>
-                                    <li className='product-details'><b>Size: </b>Box of 16</li>
+                                    <li className='product-details'><b>Size: </b>Box of {selectedProduct ? selectedProduct.boxSize : "Loading"}</li>
                                 </ul>
                             </div>
-                            <div className="row w-100">
+                            {/* <div className="row w-100">
                                 <ul className="d-flex justify-content-around align-items-center list-unstyled">
                                     <li className="emoji-characteristics"><LuMilkOff className="emoji-style" /><br/>Dairy Free</li>
                                     <li className="emoji-characteristics"><TbEggOff className="emoji-style" /><br/>Egg Free</li>
                                     <li className="emoji-characteristics"><FaRegGrinTongueSquint className="emoji-style" /><br/>Delicious</li>
-                                </ul>
-                                
-                            </div>
+                                </ul>                                
+                            </div> */}
                             <div className="row pt-3 button-container">
                                 <div className="text-center">
                                     <span className='h-100'><b>{selectedProduct ? addDecimal(selectedProduct.price)  : <div>Loading</div>} $ / box</b></span>

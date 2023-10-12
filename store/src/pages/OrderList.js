@@ -28,6 +28,7 @@ function OrderList(){
             } else if (response.ok) {
                 console.log(response.ok)
                 // const data = await response.json()
+                console.log(data)
                 setOrderDetails(data)
             } else {
                 console.log("trouble")

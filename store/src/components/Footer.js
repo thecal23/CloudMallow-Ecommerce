@@ -7,9 +7,9 @@ function Footer() {
             <footer className='container'>
                 <container className="row py-2 d-flex align-items-center justify-content-center">                    
                         <ul className="list-unstyled d-flex justify-content-center align-items-center">
-                            <li className="col-4 d-flex justify-content-center"><a className="links" href="">Contact Us</a></li>
-                            <li className="col-4 d-flex justify-content-center"><a className="links" href=""><FaInstagram /></a></li>
-                            <li className="col-4 d-flex justify-content-center"><a className="links" href="">About Us</a></li>
+                            <li className="col-4 d-flex justify-content-center"><a className="links" href="/contactus">Contact Us</a></li>
+                            <li className="col-4 d-flex justify-content-center"><a className="links" href="https://www.instagram.com/cloudmallowmtl/"><FaInstagram /></a></li>
+                            <li className="col-4 d-flex justify-content-center"><a className="links" href="/aboutus">About Us</a></li>
                         </ul>
                 </container>
             </footer>

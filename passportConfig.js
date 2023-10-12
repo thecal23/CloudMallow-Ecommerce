@@ -4,9 +4,9 @@ const localStrategy = require('passport-local').Strategy;
 
 module.exports = function (passport) {
   passport.use(
-    new localStrategy(async (username, password, done) => {
+    new localStrategy(async (email, password, done) => { //it is suppose to be (username,password, done) but I called username: email because I am using email as username
       try {
-        const user = await Admin.findOne({ username: username });
+        const user = await Admin.findOne({ email: email });
         console.log("inside the localstrategy : ", user)
         if (!user) {
           return done(null, false);

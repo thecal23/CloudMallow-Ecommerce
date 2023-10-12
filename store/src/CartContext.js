@@ -43,7 +43,7 @@ export function CartProvider({products, children}) {
     function addOneToCart(id){
         const quantity = getProductQuantity(id)
         const productData = getProductData(id)
-        const productName = productData.name
+        const productName = productData.title
         const productPrice = productData.price
 
         if (quantity === 0){

@@ -2,35 +2,52 @@ import React from 'react'
 import AdminNavbar from './AdminNavbar';
 import AddToCartButton from './AddToCartButton';
 import Form from './Form';
+import { Button } from 'react-bootstrap';
+import NavbarComponent from './Navbar';
 
 function Testing() {
-    function fetchData() {
-        fetch("http://localhost:4000/testing")
-          .then((response) => {
-            if (!response.redirected) {
-              throw new Error("redirected is false");
-            }
-            console.log(response.url)
-            window.location.href = response.url
-            
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
-      }
-      
-      
-      
+  function fetchData() {
+    fetch("http://localhost:4000/testing")
+      .then((response) => {
+        if (!response.redirected) {
+          throw new Error("redirected is false");
+        }
+        console.log(response.url)
+        window.location.href = response.url
+
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+
+
+
   return (
     <div className="d-flex">
-      <div class="row">
+      <div className="d-flex ">
+        <NavbarComponent /> 
+      </div>
+      <div className="row">
         <container className="vh-100 col-2">
-          <AdminNavbar/>
+          <AdminNavbar />
         </container>
         <div>
           <AddToCartButton />
         </div>
-        <div className="container d-flex justify-content-center mt-5"><Form /></div>
+        <div className="d-flex flex-column justify-content-around align-items-center my-5 ">
+          <div className="rounded-pill d-flex justify-content-between py-3" style={{width: '8rem'}}>
+            <Button className="btn-sm" style={{width: '1.75rem'}} type="button">-</Button>
+            <div className="text-center font-bold"><b>1</b></div>
+            <Button className=" btn-sm" style={{width: '1.75rem'}}>+</Button>
+          </div>
+          <div className="">
+            <AddToCartButton />
+          </div>
+        </div>
+        <div className="container d-flex justify-content-center mt-5">
+          <Form />
+        </div>
         <container className="col vh-100 overflow-auto">
           <div className="ml-3 mt-5 p-5 ">
             <h1>Testing </h1>
