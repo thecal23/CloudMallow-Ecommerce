@@ -1,8 +1,33 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import NavbarComponent from '../components/Navbar'
 import AdminNavbar from '../components/AdminNavbar'
+import AdminNav2 from '../components/AdminNav2'
 
 function Registration() {
+    const checkForAuthentication = async () => {
+        try {
+            const response = await fetch("http://localhost:4000/admin", {
+                mode: 'cors',
+                credentials: 'include'
+            })
+            const data = await response.json()
+            console.log(data)
+            
+            if (data.url === "http://localhost:3000/admin/login") {
+                window.location.href = data.url
+            }
+            
+            return;
+
+        } catch (error) {
+            console.log("Error: " , error)
+        }
+    }
+
+    useEffect(() => {
+        checkForAuthentication();
+    }, []);
+
     const [registerEmail, setRegisterEmail] = useState("")
     const [registerPassword, setRegisterPassword] = useState("")
     const [firstName, setFirstName] = useState('')
@@ -40,9 +65,9 @@ function Registration() {
 
     return (
         <>
-            <div className="h-100 d-lg-flex">
-                <div className='col-2'>
-                    <AdminNavbar />
+            <div className="">
+                <div className=''>
+                    <AdminNav2 />
                 </div>
                 <div className="d-flex justify-content-center align-items-center flex-column container">
                     <div>

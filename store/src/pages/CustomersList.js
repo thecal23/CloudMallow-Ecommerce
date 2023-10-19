@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react"
 import {Table} from "react-bootstrap"
 import AdminNavbar from "../components/AdminNavbar"
+import AdminNav2 from "../components/AdminNav2"
 
 function CustomersList(){
     const [customersDetails, setCustomersDetails] = useState([])
@@ -54,11 +55,11 @@ function CustomersList(){
     }
 
     return(
-        <div className="row">
-            <container className="vh-100 col-2">
-                <AdminNavbar />
-            </container>
-            <container className="vh-100 col overflow-auto m-3">
+        <div className="">
+            <div className="">
+                <AdminNav2 />
+            </div>
+            <div className="container mt-3">
                 <h1>Customers List</h1>
                 <Table striped bordered>
                     <thead>
@@ -80,7 +81,7 @@ function CustomersList(){
                         ))}
                     </tbody>
                 </Table>
-            </container>           
+            </div>           
         </div>
     )
 }

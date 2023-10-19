@@ -18,6 +18,7 @@ import {useState, useEffect} from 'react'
 import Registration from './pages/Registration';
 import Login from './pages/Login';
 import ContactUs from './pages/ContactUs';
+import Products from './pages/Products';
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -56,6 +57,7 @@ function App() {
             <Route path="testing" element={<Testing/>} />
             <Route path="admin/registration" element={<Registration />} />
             <Route path="contactus" element={<ContactUs />} />
+            <Route path="admin/products" element={<Products />} />
           </Routes>
         </BrowserRouter>
       {/* </Container> */}

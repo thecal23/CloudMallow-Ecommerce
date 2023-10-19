@@ -102,22 +102,22 @@ const ProductTable = () => {
     }
   }
 
-  const handleGetProduct = async () => {
-    console.log("we inside handle get product")
-    try {
-      const response = await fetch('http://localhost:4000/api/chosen-product', {
-        method: 'GET'
-      })
-      const data = await response.json()
-      if (response.ok){
-        console.log("data: ",data[0].name)
-      } else {
-        console.log("Error in get product")
-      }
-    } catch (error){
-      console.log("Error: ", error.message)
-    }
-  }
+  // const handleGetProduct = async () => {
+  //   console.log("we inside handle get product")
+  //   try {
+  //     const response = await fetch('http://localhost:4000/api/chosen-product', {
+  //       method: 'GET'
+  //     })
+  //     const data = await response.json()
+  //     if (response.ok){
+  //       console.log("data: ",data[0].name)
+  //     } else {
+  //       console.log("Error in get product")
+  //     }
+  //   } catch (error){
+  //     console.log("Error: ", error.message)
+  //   }
+  // }
 
   const handleAddProduct = async () => {
     let parsedPrice = price
@@ -175,7 +175,7 @@ const ProductTable = () => {
 
   return (
     <div>
-      <h2>Product List</h2>
+      <h2>Products List</h2>
       <Table striped bordered>
         <thead>
           <tr>
@@ -199,7 +199,9 @@ const ProductTable = () => {
                 <Button onClick={() => handleSelectedProduct(product)} variant="success">
                   Select Display Product
                 </Button>
-                <Button onClick={() => handleGetProduct()} variant="warning">Get Display Product</Button>
+                {/* <Button onClick={() => handleGetProduct()} variant="warning">
+                  Get Display Product
+                </Button> */}
               </td>
             </tr>
           ))}

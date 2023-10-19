@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
-import ProductTable from "../components/ProductTable";
-import AdminNavbar from "../components/AdminNavbar";
-import AdminNav2 from "../components/AdminNav2";
+import React , {useEffect} from 'react'
+import AdminNav2 from '../components/AdminNav2'
+import ProductTable from '../components/ProductTable'
 
-function AdminDashboard(){
+function Products() {
     const checkForAuthentication = async () => {
         try {
             const response = await fetch("http://localhost:4000/admin", {
@@ -28,24 +27,14 @@ function AdminDashboard(){
         checkForAuthentication();
     }, []);
 
-    return(
-        // <div className="row">
-        //     <container className="vh-100 col-2">
-        //         <AdminNavbar />
-        //     </container>
-        //     <container className="vh-100 col overflow-auto m-3">
-        //         <h1>Admin Dashboard</h1>
-        //         <ProductTable/>
-        //     </container>
-        // </div>
+    return (
         <>
             <div><AdminNav2 /></div>
             <div className="container mt-5">
-                <h1>Admin Dashboard</h1>
                 <ProductTable />
             </div>
         </>
     )
 }
 
-export default AdminDashboard;
+export default Products

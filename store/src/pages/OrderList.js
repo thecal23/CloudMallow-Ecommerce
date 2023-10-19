@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react"
 import {Table} from "react-bootstrap"
 import AdminNavbar from "../components/AdminNavbar"
+import AdminNav2 from "../components/AdminNav2"
 
 
 function OrderList(){
@@ -39,11 +40,11 @@ function OrderList(){
     }
 
     return(
-        <div className="row">
-            <container className="vh-100 col-2">
-                <AdminNavbar />
-            </container>
-            <container className="vh-100 col overflow-auto m-3">
+        <div className="">
+            <div className="">
+                <AdminNav2 />
+            </div>
+            <div className="container mt-3">
                 <h1>Order List</h1>
                 <Table striped bordered>
                     <thead>
@@ -82,7 +83,7 @@ function OrderList(){
                         ))}
                     </tbody>
                 </Table>
-            </container>
+            </div>
         
             
         </div>

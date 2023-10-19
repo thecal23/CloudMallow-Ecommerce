@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import NavbarComponent from '../components/Navbar';
+import AdminNav2 from '../components/AdminNav2';
 
 function Login() {
     const [loginEmail, setLoginEmail] = useState("")
@@ -22,6 +23,7 @@ function Login() {
             if (response.ok) {
                 const data = await response.json();
                 console.log("Login successful", data);
+                window.location.href = "http://localhost:3000/admin/"
                 // Handle success or redirect to another page
             } else {
                 const errorData = await response.json(); // Parse error response data
@@ -55,9 +57,9 @@ function Login() {
 
     return (
         <>
-            <div className="h-100">
-                <div className='container'>
-                    <NavbarComponent />
+            <div className="">
+                <div className=''>
+                    <AdminNav2 />
                 </div>
                 <div className="d-flex justify-content-center align-items-center flex-column container">
                     <div>

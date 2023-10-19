@@ -91,6 +91,11 @@ app.get("/testing", (req,res) => {
   console.log("after redirect")
 })
 
+app.get("/admin", ensureAuthenticated, (req,res) => {
+  console.log("Inside backend checkAuthentication")
+  res.sendStatus(200)
+})
+
 //login
 app.post("/admin/login", async (req, res) => {
   try {
